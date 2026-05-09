@@ -6,85 +6,48 @@
 <title>LearnCast — AI Learning Studio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #08090e;
-  --surface: #0d0f17;
-  --card: #13151f;
-  --card2: #191c28;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --lime: #c8ff40;
-  --lime-dim: rgba(200,255,64,0.12);
-  --cyan: #40e0ff;
-  --cyan-dim: rgba(64,224,255,0.1);
-  --coral: #ff5f5f;
-  --coral-dim: rgba(255,95,95,0.12);
-  --amber: #ffb840;
-  --green: #40c880;
-  --text: #eef0ff;
-  --muted: #5a6280;
-  --muted2: #8890b0;
-  --font-head: 'Syne', system-ui, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --r: 12px;
-  --r-sm: 8px;
-  --r-lg: 20px;
-}
+:root{--bg:#08090e;--surface:#0d0f17;--card:#13151f;--card2:#191c28;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--lime:#c8ff40;--lime-dim:rgba(200,255,64,0.12);--cyan:#40e0ff;--cyan-dim:rgba(64,224,255,0.1);--coral:#ff5f5f;--coral-dim:rgba(255,95,95,0.12);--amber:#ffb840;--green:#40c880;--text:#eef0ff;--muted:#5a6280;--muted2:#8890b0;--font-head:'Syne',system-ui,sans-serif;--font-body:'DM Sans',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;--r:12px;--r-sm:8px;--r-lg:20px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(200,255,64,0.04) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 85% 90%,rgba(64,224,255,0.04) 0%,transparent 50%);pointer-events:none;z-index:0}
 img,svg{max-width:100%}
-
-/* HEADER */
 .hdr{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(8,9,14,0.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 .logo{font-family:var(--font-head);font-size:1.3rem;font-weight:900;color:var(--lime);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
-.logo-dot{width:8px;height:8px;background:var(--lime);border-radius:50%;display:inline-block}
+.logo-dot{width:8px;height:8px;background:var(--lime);border-radius:50%;display:inline-block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(0.85)}}
 .lang-row{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px}
 .lb{padding:4px 10px;border-radius:5px;border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;font-weight:500;cursor:pointer;transition:all 0.15s;letter-spacing:0.04em}
 .lb.on{background:var(--lime);color:#08090e}
 .lb:hover:not(.on){color:var(--text)}
-
-/* MAIN */
 .wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px;position:relative;z-index:1}
-
-/* HERO */
 .hero{text-align:center;padding:40px 0 36px}
 .hero h1{font-family:var(--font-head);font-size:clamp(2.4rem,6vw,4rem);font-weight:900;letter-spacing:-0.03em;line-height:1.05;color:var(--text);margin-bottom:10px}
 .hero h1 span{color:var(--lime)}
 .hero p{font-size:0.97rem;color:var(--muted2);max-width:460px;margin:0 auto}
-
-/* INPUT TYPE TABS */
-.src-tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:1px}
+.src-tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:14px}
 .src-tab{flex:1;padding:9px 12px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .src-tab.on{background:var(--card2);color:var(--text)}
 .src-tab:hover:not(.on){color:var(--text);background:rgba(255,255,255,0.03)}
-
-/* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px}
-
-/* UPLOAD ZONE */
 .drop-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:36px 24px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:rgba(200,255,64,0.02)}
 .drop-zone:hover,.drop-zone.over{border-color:var(--lime);background:var(--lime-dim)}
 .drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .dz-icon{font-size:2.4rem;display:block;margin-bottom:10px}
 .dz-title{font-size:1rem;font-weight:600;margin-bottom:4px}
 .dz-sub{font-size:0.82rem;color:var(--muted2)}
-.file-tag{display:inline-flex;align-items:center;gap:6px;background:var(--lime-dim);border:1px solid rgba(200,255,64,0.25);color:var(--lime);padding:5px 12px;border-radius:20px;font-family:var(--font-mono);font-size:0.75rem;margin-top:10px}
-
-/* URL INPUT */
+.file-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;justify-content:center}
+.file-tag{display:inline-flex;align-items:center;gap:6px;background:var(--lime-dim);border:1px solid rgba(200,255,64,0.25);color:var(--lime);padding:5px 10px;border-radius:20px;font-family:var(--font-mono);font-size:0.72rem;max-width:200px}
+.file-tag span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-tag .rm{cursor:pointer;opacity:0.6;flex-shrink:0;font-style:normal;font-size:0.9rem;line-height:1}
+.file-tag .rm:hover{opacity:1}
 .url-row{display:flex;gap:8px}
 .url-inp{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:0.9rem;outline:none;transition:border-color 0.15s}
 .url-inp:focus{border-color:var(--cyan)}
 .url-inp::placeholder{color:var(--muted)}
-
-/* TEXTAREA */
 .paste-area{width:100%;min-height:140px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;color:var(--text);font-family:var(--font-body);font-size:0.88rem;line-height:1.6;outline:none;resize:vertical;transition:border-color 0.15s}
 .paste-area:focus{border-color:var(--cyan)}
 .paste-area::placeholder{color:var(--muted)}
-
-/* SETTINGS */
 .settings-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
 @media(max-width:560px){.settings-row{grid-template-columns:1fr}}
 .sl{font-family:var(--font-mono);font-size:0.7rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block}
@@ -92,8 +55,6 @@ img,svg{max-width:100%}
 .ob{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s}
 .ob.on{background:var(--lime);border-color:var(--lime);color:#08090e;font-weight:600}
 .ob:hover:not(.on){border-color:var(--lime);color:var(--text)}
-
-/* TOGGLE */
 .tog-row{display:flex;align-items:center;gap:12px;padding:16px 0 4px}
 .tog{position:relative;width:42px;height:22px;flex-shrink:0}
 .tog input{opacity:0;width:0;height:0}
@@ -102,8 +63,6 @@ img,svg{max-width:100%}
 .tog input:checked~.tog-track{background:var(--lime)}
 .tog input:checked~.tog-track::after{transform:translateX(20px);background:#08090e}
 .tog-lbl{font-size:0.9rem;font-weight:500;cursor:pointer;user-select:none}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-sm);border:none;font-family:var(--font-body);font-weight:600;font-size:0.88rem;cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .btn-lime{background:var(--lime);color:#08090e}
 .btn-lime:hover{opacity:0.9;transform:translateY(-1px)}
@@ -112,8 +71,6 @@ img,svg{max-width:100%}
 .btn-ghost:hover{border-color:var(--border2);background:rgba(255,255,255,0.09)}
 .btn-gen{width:100%;justify-content:center;padding:14px 24px;font-size:1rem;border-radius:var(--r);margin-top:20px;letter-spacing:0.01em}
 .btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important}
-
-/* PROCESSING */
 .proc-wrap{text-align:center;padding:80px 20px}
 .spinner{width:80px;height:80px;margin:0 auto 28px;position:relative}
 .sp-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--lime);animation:spin 1s linear infinite}
@@ -124,49 +81,32 @@ img,svg{max-width:100%}
 .proc-msg{color:var(--muted2);font-size:0.9rem;min-height:22px;transition:opacity 0.3s}
 .prog-outer{width:260px;height:3px;background:var(--border);border-radius:2px;margin:20px auto 0;overflow:hidden}
 .prog-inner{height:100%;background:linear-gradient(90deg,var(--lime),var(--cyan));border-radius:2px;width:0;transition:width 0.6s ease}
-
-/* RESULTS HEADER */
 .res-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .res-hdr-left{display:flex;flex-direction:column;gap:2px}
 .res-title{font-family:var(--font-head);font-size:1.2rem;font-weight:800;color:var(--lime)}
 .res-sub{font-size:0.8rem;color:var(--muted2)}
 .res-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-/* TABS */
 .tabs{display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px;margin-bottom:18px;overflow-x:auto}
 .tab-btn{flex:1;min-width:72px;padding:7px 12px;border-radius:6px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:5px}
 .tab-btn.on{background:var(--card2);color:var(--text)}
 .tab-btn:hover:not(.on){color:var(--text)}
 .tc{display:none}
 .tc.on{display:block}
-
-/* PODCAST */
 .pod-player{background:var(--lime-dim);border:1px solid rgba(200,255,64,0.15);border-radius:var(--r);padding:22px;display:flex;align-items:center;gap:18px;margin-bottom:14px;flex-wrap:wrap}
 .play-btn{width:52px;height:52px;border-radius:50%;background:var(--lime);border:none;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;color:#08090e;flex-shrink:0}
 .play-btn:hover{transform:scale(1.05)}
 .wave{display:flex;align-items:center;gap:3px;height:36px;flex:1;min-width:80px}
 .wb{width:3px;border-radius:2px;background:var(--lime);opacity:0.35;animation:widle 1.8s ease-in-out infinite}
-.wb:nth-child(2n){animation-delay:0.15s}
-.wb:nth-child(3n){animation-delay:0.3s}
-.wb:nth-child(4n){animation-delay:0.08s}
-.wb:nth-child(5n){animation-delay:0.22s}
-.wb:nth-child(7n){animation-delay:0.45s}
+.wb:nth-child(2n){animation-delay:0.15s}.wb:nth-child(3n){animation-delay:0.3s}.wb:nth-child(4n){animation-delay:0.08s}.wb:nth-child(5n){animation-delay:0.22s}.wb:nth-child(7n){animation-delay:0.45s}
 @keyframes widle{0%,100%{height:6px}50%{height:22px}}
 .playing .wb{opacity:0.9;animation:wplay 0.7s ease-in-out infinite}
-.playing .wb:nth-child(2n){animation-delay:0.07s}
-.playing .wb:nth-child(3n){animation-delay:0.14s}
-.playing .wb:nth-child(4n){animation-delay:0.21s}
-.playing .wb:nth-child(5n){animation-delay:0.28s}
+.playing .wb:nth-child(2n){animation-delay:0.07s}.playing .wb:nth-child(3n){animation-delay:0.14s}.playing .wb:nth-child(4n){animation-delay:0.21s}.playing .wb:nth-child(5n){animation-delay:0.28s}
 @keyframes wplay{0%,100%{height:5px}50%{height:34px}}
 .pod-info{flex:1}
 .pod-label{font-family:var(--font-mono);font-size:0.68rem;color:var(--lime);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px}
 .pod-name{font-weight:600;font-size:0.95rem}
 .script-box{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;font-size:0.88rem;line-height:1.75;color:var(--muted2);max-height:220px;overflow-y:auto}
-
-/* SUMMARY */
 .sum-content{font-size:0.93rem;line-height:1.85;color:var(--muted2);white-space:pre-wrap}
-
-/* QUESTIONS */
 .q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:10px;animation:fadein 0.3s ease both}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .q-num{font-family:var(--font-mono);font-size:0.68rem;color:var(--lime);font-weight:500;margin-bottom:5px;letter-spacing:0.05em}
@@ -179,13 +119,10 @@ img,svg{max-width:100%}
 .expl-box{background:var(--cyan-dim);border:1px solid rgba(64,224,255,0.15);border-radius:var(--r-sm);padding:10px 14px;font-size:0.82rem;color:#a0e8ff;margin-top:8px;display:none;line-height:1.6}
 .expl-box.show{display:block}
 .ans-toggle{margin-top:9px}
-
-/* GAME */
 .game-start-card{text-align:center;padding:44px 24px}
 .gs-icon{font-size:4rem;margin-bottom:14px;display:block}
 .gs-title{font-family:var(--font-head);font-size:1.8rem;font-weight:900;margin-bottom:6px}
 .gs-sub{color:var(--muted2);font-size:0.9rem;line-height:1.6;margin-bottom:24px}
-
 .game-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .hud-box{text-align:center}
 .hud-val{font-family:var(--font-head);font-size:1.4rem;font-weight:900;line-height:1}
@@ -194,7 +131,6 @@ img,svg{max-width:100%}
 .timer-fill{height:100%;background:var(--lime);border-radius:2px;transition:width 0.1s linear}
 .timer-fill.warn{background:var(--amber)}
 .timer-fill.dang{background:var(--coral)}
-
 .gq-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
 .gq-prog{font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:6px}
 .gq-text{font-size:1rem;font-weight:600;line-height:1.5}
@@ -213,20 +149,23 @@ img,svg{max-width:100%}
 .fb-corr .fb-head{color:var(--green)}
 .fb-wrng .fb-head{color:var(--coral)}
 .fb-body{font-size:0.83rem;color:var(--muted2)}
-
 .go-card{text-align:center;padding:44px 24px}
 .go-em{font-size:5rem;display:block;margin-bottom:14px}
 .go-title{font-family:var(--font-head);font-size:2rem;font-weight:900;margin-bottom:6px}
 .final-score{font-family:var(--font-head);font-size:4.5rem;font-weight:900;color:var(--lime);line-height:1;margin:16px 0 6px}
 .final-lbl{font-size:0.85rem;color:var(--muted2);margin-bottom:24px}
 .go-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-
-/* STATUS */
+.err-banner{background:var(--coral-dim);border:1px solid rgba(255,95,95,0.3);border-radius:var(--r-sm);padding:12px 16px;font-size:0.85rem;color:#fca5a5;margin-top:12px;display:none}
+.err-banner.show{display:block}
+.voice-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.voice-lbl{font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap}
+.vb{padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
+.vb.on{background:var(--lime);border-color:var(--lime);color:#08090e;font-weight:600}
+.vb:hover:not(.on){border-color:var(--lime);color:var(--text)}
 .status-ok{color:var(--green);font-size:0.82rem;font-family:var(--font-mono)}
 .status-err{color:var(--coral);font-size:0.82rem;font-family:var(--font-mono)}
 .status-info{color:var(--muted2);font-size:0.82rem;font-family:var(--font-mono)}
-.mt8{margin-top:8px}
-.mt16{margin-top:16px}
+.mt8{margin-top:8px}.mt16{margin-top:16px}
 .divider{height:1px;background:var(--border);margin:18px 0}
 .hidden{display:none!important}
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -235,7 +174,6 @@ img,svg{max-width:100%}
 </style>
 </head>
 <body>
-
 <header class="hdr">
   <div class="logo"><span class="logo-dot"></span>LearnCast</div>
   <div class="lang-row">
@@ -254,10 +192,8 @@ img,svg{max-width:100%}
       <h1 id="hTitle">Learn<span>Cast</span></h1>
       <p id="hSub">Transform any document, image or link into a podcast, summary and interactive quiz.</p>
     </div>
-
     <div class="card">
-      <!-- Source type tabs -->
-      <div class="src-tabs" style="margin-bottom:14px">
+      <div class="src-tabs">
         <button class="src-tab on" id="stFile" onclick="setSrc('file')">📁 <span id="stFileLbl">File</span></button>
         <button class="src-tab" id="stUrl" onclick="setSrc('url')">🔗 <span id="stUrlLbl">URL</span></button>
         <button class="src-tab" id="stText" onclick="setSrc('text')">✏️ <span id="stTextLbl">Paste Text</span></button>
@@ -266,12 +202,12 @@ img,svg{max-width:100%}
       <!-- File -->
       <div id="srcFile">
         <div class="drop-zone" id="dropZone">
-          <input type="file" id="fileInput" accept=".pdf,.txt,.md,.csv,image/*">
+          <input type="file" id="fileInput" accept=".pdf,.txt,.md,.csv,image/*" multiple>
           <span class="dz-icon">📂</span>
           <div class="dz-title" id="dzTitle">Drag & drop or click to upload</div>
-          <div class="dz-sub" id="dzSub">PDF · Images · Text files</div>
-          <div id="fileBadge" class="file-tag hidden"></div>
+          <div class="dz-sub" id="dzSub">PDF · Images · Text files · Up to 5 files</div>
         </div>
+        <div class="file-badges" id="fileBadges"></div>
       </div>
 
       <!-- URL -->
@@ -290,9 +226,9 @@ img,svg{max-width:100%}
         <textarea class="paste-area" id="pasteArea" placeholder="Paste any text here — articles, notes, lecture transcripts, book excerpts…"></textarea>
       </div>
 
+      <div class="err-banner" id="errBanner"></div>
       <div class="divider"></div>
 
-      <!-- Settings -->
       <div class="settings-row">
         <div>
           <span class="sl" id="qcLbl">Questions</span>
@@ -305,9 +241,9 @@ img,svg{max-width:100%}
         <div>
           <span class="sl" id="diffLbl">Difficulty</span>
           <div class="opts">
-            <button class="ob on" id="dEasy" onclick="setOpt('diff','easy',this)">😊 <span id="dEasyL">Easy</span></button>
-            <button class="ob" id="dFun" onclick="setOpt('diff','fun',this)">🎉 <span id="dFunL">Fun</span></button>
-            <button class="ob" id="dHard" onclick="setOpt('diff','hard',this)">🔥 <span id="dHardL">Hard</span></button>
+            <button class="ob on" onclick="setOpt('diff','easy',this)">😊 <span id="dEasyL">Easy</span></button>
+            <button class="ob" onclick="setOpt('diff','fun',this)">🎉 <span id="dFunL">Fun</span></button>
+            <button class="ob" onclick="setOpt('diff','hard',this)">🔥 <span id="dHardL">Hard</span></button>
           </div>
         </div>
       </div>
@@ -347,15 +283,18 @@ img,svg{max-width:100%}
         <button class="btn btn-ghost" onclick="reset()">↩ <span id="newLbl">New</span></button>
       </div>
     </div>
-
     <div class="tabs">
       <button class="tab-btn on" onclick="tab('pod')" id="tb-pod">🎙️ <span id="tbPod">Podcast</span></button>
       <button class="tab-btn" onclick="tab('sum')" id="tb-sum">📄 <span id="tbSum">Summary</span></button>
       <button class="tab-btn" onclick="tab('qst')" id="tb-qst">❓ <span id="tbQst">Questions</span></button>
       <button class="tab-btn" onclick="tab('gam')" id="tb-gam">🎮 <span id="tbGam">Game</span></button>
     </div>
-
     <div class="tc on" id="tc-pod">
+      <div class="voice-row">
+        <span class="voice-lbl" id="voiceLbl">Voice</span>
+        <button class="vb on" id="vFem" onclick="setVoice('female',this)">♀ <span id="vFemL">Female</span></button>
+        <button class="vb" id="vMal" onclick="setVoice('male',this)">♂ <span id="vMalL">Male</span></button>
+      </div>
       <div class="pod-player" id="podPlayer">
         <button class="play-btn" id="playBtn" onclick="toggleTTS()">▶</button>
         <div class="wave" id="wave"></div>
@@ -366,15 +305,12 @@ img,svg{max-width:100%}
       </div>
       <div class="script-box" id="scriptBox"></div>
     </div>
-
     <div class="tc" id="tc-sum">
       <div class="card"><div class="sum-content" id="sumContent"></div></div>
     </div>
-
     <div class="tc" id="tc-qst">
       <div id="qList"></div>
     </div>
-
     <div class="tc" id="tc-gam">
       <div id="gameArea"></div>
     </div>
@@ -388,7 +324,7 @@ const L={
     hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
     hSub:'Transform any document, image or link into a podcast, summary and interactive quiz.',
     stFileLbl:'File',stUrlLbl:'URL',stTextLbl:'Paste Text',
-    dzTitle:'Drag & drop or click to upload',dzSub:'PDF · Images · Text files',
+    dzTitle:'Drag & drop or click to upload',dzSub:'PDF · Images · Text files · Up to 5 files',
     urlLbl:'Paste a URL',fetchLbl:'Fetch',textLbl:'Paste your text',
     qcLbl:'Questions',diffLbl:'Difficulty',dEasyL:'Easy',dFunL:'Fun',dHardL:'Hard',
     gameModeLbl:'Game Mode',genLbl:'Generate Learning Content',
@@ -403,9 +339,11 @@ const L={
     correct:'✅ Correct!',wrong:'❌ Wrong!',
     gameOver:'Game Over!',youWon:'You Won! 🏆',
     finalScore:'Final Score',tryAgain:'Try Again',backToRes:'Back',
-    errFetch:'Could not fetch URL. Try a different link or paste the text manually.',
-    errProc:'Failed to process. Please try again.',
-    fetchingMsg:'Fetching content…',fetchedMsg:'✅ Content fetched successfully',
+    errFetch:'Could not fetch URL. Try pasting the text manually.',
+    errNoContent:'Please upload a file, enter a URL, or paste some text first.',
+    errAPI:'API error — please try again.',
+    fetchingMsg:'Fetching content…',fetchedMsg:'✅ Content fetched',
+    voiceLbl:'Voice',vFemL:'Female',vMalL:'Male',
     ABCD:['A','B','C','D'],
     diffDesc:{easy:'simple comprehension questions for beginners',fun:'fun, creative and trivia-style questions',hard:'challenging analytical and critical thinking questions'},
     langName:'English'
@@ -414,7 +352,7 @@ const L={
     hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
     hSub:'Herhangi bir dokümanı, görseli veya linki podcast, özet ve interaktif teste dönüştür.',
     stFileLbl:'Dosya',stUrlLbl:'URL',stTextLbl:'Metin Yapıştır',
-    dzTitle:'Sürükle & bırak veya tıkla',dzSub:'PDF · Görseller · Metin dosyaları',
+    dzTitle:'Sürükle & bırak veya tıkla',dzSub:'PDF · Görseller · Metin dosyaları · 5 dosyaya kadar',
     urlLbl:'URL yapıştır',fetchLbl:'Getir',textLbl:'Metni yapıştır',
     qcLbl:'Soru Sayısı',diffLbl:'Zorluk',dEasyL:'Kolay',dFunL:'Eğlenceli',dHardL:'Zor',
     gameModeLbl:'Oyun Modu',genLbl:'Öğrenme İçeriği Oluştur',
@@ -429,9 +367,11 @@ const L={
     correct:'✅ Doğru!',wrong:'❌ Yanlış!',
     gameOver:'Oyun Bitti!',youWon:'Kazandın! 🏆',
     finalScore:'Son Puan',tryAgain:'Tekrar Dene',backToRes:'Geri',
-    errFetch:'URL getirilemedi. Farklı bir link deneyin veya metni yapıştırın.',
-    errProc:'İşlem başarısız. Lütfen tekrar deneyin.',
-    fetchingMsg:'İçerik getiriliyor…',fetchedMsg:'✅ İçerik başarıyla getirildi',
+    errFetch:'URL getirilemedi. Metni yapıştırmayı deneyin.',
+    errNoContent:'Lütfen önce dosya yükleyin, URL girin veya metin yapıştırın.',
+    errAPI:'API hatası — lütfen tekrar deneyin.',
+    fetchingMsg:'İçerik getiriliyor…',fetchedMsg:'✅ Başarıyla getirildi',
+    voiceLbl:'Ses',vFemL:'Kadın',vMalL:'Erkek',
     ABCD:['A','B','C','D'],
     diffDesc:{easy:'başlangıç seviyesi için basit anlama soruları',fun:'eğlenceli, yaratıcı ve trivia tarzı sorular',hard:'zorlu analitik ve eleştirel düşünme soruları'},
     langName:'Turkish'
@@ -440,7 +380,7 @@ const L={
     hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
     hSub:'İstənilən sənədi, şəkli və ya linki podcast, xülasə və interaktiv testə çevirin.',
     stFileLbl:'Fayl',stUrlLbl:'URL',stTextLbl:'Mətn Yapışdır',
-    dzTitle:'Sürüklə & burax və ya klikla',dzSub:'PDF · Şəkillər · Mətn faylları',
+    dzTitle:'Sürüklə & burax və ya klikla',dzSub:'PDF · Şəkillər · Mətn faylları · 5 fayla qədər',
     urlLbl:'URL yapışdır',fetchLbl:'Gətir',textLbl:'Mətni yapışdır',
     qcLbl:'Sual Sayı',diffLbl:'Çətinlik',dEasyL:'Asan',dFunL:'Əyləncəli',dHardL:'Çətin',
     gameModeLbl:'Oyun Rejimi',genLbl:'Öyrənmə Məzmunu Yarat',
@@ -449,15 +389,17 @@ const L={
     tbPod:'Podcast',tbSum:'Xülasə',tbQst:'Suallar',tbGam:'Oyun',
     pdfLbl:'PDF İxrac',newLbl:'Yeni',resTitle:'✅ Məzmun Hazırdır',
     showAns:'Cavabı Göstər',hideAns:'Cavabı Gizlə',explLbl:'İzahat:',
-    gsTitle:'Oynamağa hazırsınız?',gsSub:'Düzgün cavab verin, bal qazanın. 3 canınız və hər sual üçün 15 saniyəniz var.',
+    gsTitle:'Oynamağa hazırsınız?',gsSub:'Düzgün cavab verin, bal qazanın. 3 canınız var.',
     startGame:'Oyuna Başla 🚀',livesLbl:'Can',scoreLbl:'Bal',
     qLbl:'Sual',ofLbl:'/',
     correct:'✅ Düzgün!',wrong:'❌ Yanlış!',
     gameOver:'Oyun Bitdi!',youWon:'Qazandınız! 🏆',
     finalScore:'Yekun Bal',tryAgain:'Yenidən',backToRes:'Geri',
-    errFetch:'URL gətirilə bilmədi. Başqa link sınayın və ya mətni yapışdırın.',
-    errProc:'Emal uğursuz oldu. Yenidən cəhd edin.',
-    fetchingMsg:'Məzmun gətirilir…',fetchedMsg:'✅ Məzmun uğurla gətirildi',
+    errFetch:'URL gətirilə bilmədi. Mətni yapışdırmağa cəhd edin.',
+    errNoContent:'Zəhmət olmasa əvvəlcə fayl yükləyin, URL daxil edin və ya mətn yapışdırın.',
+    errAPI:'API xətası — yenidən cəhd edin.',
+    fetchingMsg:'Məzmun gətirilir…',fetchedMsg:'✅ Uğurla gətirildi',
+    voiceLbl:'Səs',vFemL:'Qadın',vMalL:'Kişi',
     ABCD:['A','B','C','D'],
     diffDesc:{easy:'yeni başlayanlar üçün sadə anlama sualları',fun:'əyləncəli, yaradıcı və viktorina tipli suallar',hard:'çətin analitik və tənqidi düşüncə sualları'},
     langName:'Azerbaijani'
@@ -466,7 +408,7 @@ const L={
     hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
     hSub:'Превратите любой документ, изображение или ссылку в подкаст, резюме и интерактивный тест.',
     stFileLbl:'Файл',stUrlLbl:'URL',stTextLbl:'Вставить текст',
-    dzTitle:'Перетащите или нажмите для загрузки',dzSub:'PDF · Изображения · Текстовые файлы',
+    dzTitle:'Перетащите или нажмите для загрузки',dzSub:'PDF · Изображения · Текстовые файлы · До 5 файлов',
     urlLbl:'Вставьте URL',fetchLbl:'Загрузить',textLbl:'Вставьте текст',
     qcLbl:'Вопросы',diffLbl:'Сложность',dEasyL:'Лёгкий',dFunL:'Весёлый',dHardL:'Трудный',
     gameModeLbl:'Игровой режим',genLbl:'Создать учебный контент',
@@ -475,15 +417,17 @@ const L={
     tbPod:'Подкаст',tbSum:'Резюме',tbQst:'Вопросы',tbGam:'Игра',
     pdfLbl:'Экспорт PDF',newLbl:'Новый',resTitle:'✅ Контент готов',
     showAns:'Показать ответ',hideAns:'Скрыть ответ',explLbl:'Объяснение:',
-    gsTitle:'Готовы играть?',gsSub:'Отвечайте правильно и зарабатывайте очки. У вас 3 жизни и 15 секунд на вопрос.',
+    gsTitle:'Готовы играть?',gsSub:'Отвечайте правильно и зарабатывайте очки. 3 жизни, 15 секунд на вопрос.',
     startGame:'Начать игру 🚀',livesLbl:'Жизни',scoreLbl:'Счёт',
     qLbl:'Вопрос',ofLbl:'из',
     correct:'✅ Правильно!',wrong:'❌ Неверно!',
     gameOver:'Игра окончена!',youWon:'Вы выиграли! 🏆',
     finalScore:'Финальный счёт',tryAgain:'Ещё раз',backToRes:'Назад',
-    errFetch:'Не удалось загрузить URL. Попробуйте другую ссылку или вставьте текст.',
-    errProc:'Ошибка обработки. Попробуйте снова.',
-    fetchingMsg:'Загружаем контент…',fetchedMsg:'✅ Контент успешно загружен',
+    errFetch:'Не удалось загрузить URL. Попробуйте вставить текст вручную.',
+    errNoContent:'Пожалуйста, сначала загрузите файл, введите URL или вставьте текст.',
+    errAPI:'Ошибка API — попробуйте снова.',
+    fetchingMsg:'Загружаем контент…',fetchedMsg:'✅ Контент загружен',
+    voiceLbl:'Голос',vFemL:'Женский',vMalL:'Мужской',
     ABCD:['A','B','C','D'],
     diffDesc:{easy:'простые вопросы на понимание для начинающих',fun:'увлекательные, творческие и викторинные вопросы',hard:'сложные аналитические вопросы и вопросы критического мышления'},
     langName:'Russian'
@@ -491,53 +435,87 @@ const L={
 };
 
 const S={lang:'en',srcType:'file',qc:10,diff:'easy',game:false,
-  file:null,urlText:null,sourceTitle:'Content',results:null,ttsOn:false};
+  files:[],urlText:null,sourceTitle:'Content',results:null,ttsOn:false,voice:'female'};
 
 let pInterval=null,pPct=0,gTimer=null,gTLeft=15,gAnswered=false,gOver=false;
 
-// ─── LANG ───────────────────────────────────────────────
+// ─── LANG ────────────────────────────────────────────────
 function setL(l){
   S.lang=l;
-  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.trim()===l.toUpperCase()));
   const t=L[l];
-  const ids=['hTitle','hSub','stFileLbl','stUrlLbl','stTextLbl','dzTitle','dzSub','urlLbl',
-    'fetchLbl','textLbl','qcLbl','diffLbl','dEasyL','dFunL','dHardL','gameModeLbl','genLbl',
-    'procTitle','tbPod','tbSum','tbQst','tbGam','pdfLbl','newLbl'];
-  ids.forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});
-  if(document.getElementById('hTitle'))document.getElementById('hTitle').innerHTML=t.hTitle;
-  if(document.getElementById('hSub'))document.getElementById('hSub').innerHTML=t.hSub;
+  ['hTitle','hSub','stFileLbl','stUrlLbl','stTextLbl','dzTitle','dzSub','urlLbl','fetchLbl',
+   'textLbl','qcLbl','diffLbl','dEasyL','dFunL','dHardL','gameModeLbl','genLbl',
+   'procTitle','tbPod','tbSum','tbQst','tbGam','pdfLbl','newLbl',
+   'voiceLbl','vFemL','vMalL'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&t[id]!==undefined)el.innerHTML=t[id];
+  });
 }
 function tx(k){return L[S.lang][k]||L.en[k]||k;}
 
-// ─── SOURCE TYPE ─────────────────────────────────────────
+function setVoice(v,btn){
+  S.voice=v;
+  document.querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(S.ttsOn){window.speechSynthesis.cancel();S.ttsOn=false;document.getElementById('playBtn').textContent='▶';document.getElementById('podPlayer').classList.remove('playing');}
+}
+
+// ─── SOURCE TYPE ──────────────────────────────────────────
 function setSrc(type){
   S.srcType=type;
   ['file','url','text'].forEach(t=>{
-    document.getElementById('st'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('on',t===type);
-    document.getElementById('src'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('hidden',t!==type);
+    const cap=t.charAt(0).toUpperCase()+t.slice(1);
+    document.getElementById('st'+cap).classList.toggle('on',t===type);
+    document.getElementById('src'+cap).classList.toggle('hidden',t!==type);
   });
 }
 
 // ─── SETTINGS ─────────────────────────────────────────────
 function setOpt(key,val,btn){
   S[key]=val;
-  const parent=btn.closest('.opts');
-  parent.querySelectorAll('.ob').forEach(b=>b.classList.remove('on'));
+  btn.closest('.opts').querySelectorAll('.ob').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
 }
 
-// ─── FILE HANDLING ────────────────────────────────────────
+// ─── MULTI-FILE HANDLING ──────────────────────────────────
 const fi=document.getElementById('fileInput');
 const dz=document.getElementById('dropZone');
-fi.addEventListener('change',e=>{if(e.target.files[0])pickFile(e.target.files[0]);});
+
+fi.addEventListener('change',e=>{addFiles(Array.from(e.target.files));fi.value='';});
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])pickFile(e.dataTransfer.files[0]);});
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('over');
+  addFiles(Array.from(e.dataTransfer.files));
+});
 
-function pickFile(f){
-  S.file=f;S.urlText=null;S.sourceTitle=f.name;
-  const b=document.getElementById('fileBadge');
-  b.textContent='📎 '+f.name;b.classList.remove('hidden');
+function addFiles(newFiles){
+  newFiles.forEach(f=>{
+    if(S.files.length>=5)return;
+    if(!S.files.find(x=>x.name===f.name&&x.size===f.size))S.files.push(f);
+  });
+  if(S.files.length>0)S.sourceTitle=S.files.map(f=>f.name).join(', ');
+  renderBadges();
+  hideErr();
+}
+
+function removeFile(idx){
+  S.files.splice(idx,1);
+  if(S.files.length===0)S.sourceTitle='Content';
+  renderBadges();
+}
+
+function renderBadges(){
+  const c=document.getElementById('fileBadges');
+  c.innerHTML='';
+  S.files.forEach((f,i)=>{
+    const tag=document.createElement('div');
+    tag.className='file-tag';
+    const short=f.name.length>22?f.name.slice(0,19)+'…':f.name;
+    tag.innerHTML=`<span>📎 ${short}</span><i class="rm" onclick="removeFile(${i})">✕</i>`;
+    c.appendChild(tag);
+  });
 }
 
 // ─── URL FETCH ────────────────────────────────────────────
@@ -545,36 +523,57 @@ async function doFetch(){
   const url=document.getElementById('urlInp').value.trim();
   if(!url)return;
   setStatus('info',tx('fetchingMsg'));
+  hideErr();
   try{
     const text=await fetchURL(url);
-    S.urlText=text;S.file=null;S.sourceTitle=url.replace(/^https?:\/\//,'').slice(0,60);
-    const b=document.getElementById('fileBadge');
-    b.textContent='🔗 '+S.sourceTitle;b.classList.remove('hidden');
-    setStatus('ok',tx('fetchedMsg'));
-  }catch(e){setStatus('err',tx('errFetch'));}
+    S.urlText=text;S.files=[];
+    S.sourceTitle=url.replace(/^https?:\/\//,'').slice(0,60);
+    setStatus('ok',tx('fetchedMsg')+' ('+text.length+' chars)');
+  }catch(e){
+    S.urlText=null;
+    setStatus('err',tx('errFetch'));
+  }
 }
 
 async function fetchURL(url){
   const proxies=[
-    'https://corsproxy.io/?'+encodeURIComponent(url),
-    'https://api.allorigins.win/raw?url='+encodeURIComponent(url)
+    // proxy 1 - codetabs (very reliable)
+    {u:`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,raw:true},
+    // proxy 2 - corsproxy.io
+    {u:`https://corsproxy.io/?url=${encodeURIComponent(url)}`,raw:true},
+    // proxy 3 - allorigins
+    {u:`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,raw:true},
+    // proxy 4 - allorigins JSON wrapper
+    {u:`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,json:'contents'},
+    // proxy 5 - thingproxy
+    {u:`https://thingproxy.freeboard.io/fetch/${url}`,raw:true}
   ];
   for(const p of proxies){
     try{
-      const r=await fetch(p,{signal:AbortSignal.timeout(12000)});
-      if(r.ok){const h=await r.text();return parseHTML(h);}
+      const ctrl=new AbortController();
+      const tid=setTimeout(()=>ctrl.abort(),12000);
+      const r=await fetch(p.u,{signal:ctrl.signal});
+      clearTimeout(tid);
+      if(!r.ok)continue;
+      let html;
+      if(p.json){const j=await r.json();html=j[p.json]||'';}
+      else{html=await r.text();}
+      if(!html||html.length<100)continue;
+      const txt=parseHTML(html);
+      if(txt.length>80)return txt;
     }catch(e){continue;}
   }
-  throw new Error('fetch failed');
+  throw new Error('All proxies failed');
 }
 
 function parseHTML(html){
   const doc=new DOMParser().parseFromString(html,'text/html');
-  ['script','style','nav','footer','header','aside','noscript'].forEach(t=>doc.querySelectorAll(t).forEach(e=>e.remove()));
+  ['script','style','nav','footer','header','aside','noscript','iframe','svg'].forEach(t=>
+    doc.querySelectorAll(t).forEach(e=>e.remove()));
   const title=doc.querySelector('title')?.textContent||'';
-  const main=doc.querySelector('main,article,[role="main"]');
-  const txt=(main||doc.body)?.textContent||'';
-  return((title?'Title: '+title+'\n\n':'')+txt.replace(/\s+/g,' ').trim()).slice(0,7000);
+  const main=doc.querySelector('main,article,[role="main"],.content,.post-content');
+  const txt=(main||doc.body)?.innerText||doc.body?.textContent||'';
+  return((title?'Title: '+title+'\n\n':'')+txt.replace(/\s+/g,' ').trim()).slice(0,8000);
 }
 
 function setStatus(type,msg){
@@ -582,17 +581,32 @@ function setStatus(type,msg){
   if(el)el.innerHTML=`<span class="status-${type}">${msg}</span>`;
 }
 
+// ─── SHOW ERROR ───────────────────────────────────────────
+function showErr(msg){
+  const b=document.getElementById('errBanner');
+  b.textContent=msg;b.classList.add('show');
+}
+function hideErr(){
+  document.getElementById('errBanner').classList.remove('show');
+}
+
 // ─── GENERATE ─────────────────────────────────────────────
 async function doGenerate(){
-  const hasPaste=S.srcType==='text'&&document.getElementById('pasteArea').value.trim();
-  if(!S.file&&!S.urlText&&!hasPaste)return;
+  hideErr();
+  const hasPaste=S.srcType==='text'&&document.getElementById('pasteArea').value.trim().length>0;
+  const hasFiles=S.files.length>0;
+  const hasURL=!!S.urlText;
+  if(!hasFiles&&!hasURL&&!hasPaste){
+    showErr(tx('errNoContent'));return;
+  }
   showV('proc');startProc();
   try{
     const r=await callAI();
     S.results=r;stopProc();showResults();
   }catch(e){
     stopProc();showV('upload');
-    setStatus('err',tx('errProc')+': '+e.message);
+    showErr(tx('errAPI')+' '+e.message);
+    console.error('LearnCast error:',e);
   }
 }
 
@@ -601,65 +615,120 @@ async function callAI(){
   const prompt=`You are an expert educational content creator. Analyze the provided content and create high-quality learning materials in ${t.langName}.
 
 Generate in ${t.langName}:
+1. PODCAST SCRIPT — Natural, engaging 250-300 word script spoken by a friendly podcast host.
+2. SUMMARY — Clear bullet-point summary 150-200 words covering the key points.
+3. EXACTLY ${S.qc} MULTIPLE CHOICE QUESTIONS — ${t.diffDesc[S.diff]}. Each has exactly 4 options. "correct" must be 0, 1, 2, or 3 (index of the correct option).
 
-1. PODCAST SCRIPT — Natural, engaging 250-300 word script as if spoken by a podcast host.
-2. SUMMARY — Clear bullet-point summary 150-200 words.
-3. EXACTLY ${S.qc} MULTIPLE CHOICE QUESTIONS — ${t.diffDesc[S.diff]}. Each has 4 options, 1 correct.
+Respond ONLY with valid JSON (no markdown, no backticks, no extra text):
+{"title":"short descriptive title","podcast":"full script text","summary":"full summary text","questions":[{"q":"question text","options":["option A","option B","option C","option D"],"correct":0,"explanation":"brief explanation why the answer is correct"}]}
 
-Respond ONLY with valid JSON, no markdown fences:
-{"title":"short title","podcast":"full script","summary":"full summary","questions":[{"q":"question","options":["A text","B text","C text","D text"],"correct":0,"explanation":"why correct"}]}`;
+IMPORTANT: Return pure JSON only. No \`\`\`json fences. No preamble.`;
 
-  let content;
-  if(S.file){
-    const isPdf=S.file.type==='application/pdf';
-    const isImg=S.file.type.startsWith('image/');
-    const b64=await toB64(S.file);
-    if(isPdf){
-      content=[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}];
-    } else if(isImg){
-      const mt=['image/jpeg','image/png','image/gif','image/webp'].includes(S.file.type)?S.file.type:'image/jpeg';
-      content=[{type:'image',source:{type:'base64',media_type:mt,data:b64}},{type:'text',text:prompt}];
-    } else {
-      const txt=await toText(S.file);
-      content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+txt.slice(0,7000)}];
+  const contentBlocks=[];
+
+  if(S.files.length>0){
+    for(const f of S.files){
+      const nameL=f.name.toLowerCase();
+      const isPdf=f.type==='application/pdf'||nameL.endsWith('.pdf');
+      const isImg=f.type.startsWith('image/')||/\.(jpe?g|png|gif|webp|bmp|tiff?)$/i.test(nameL);
+      if(isPdf){
+        const b64=await toB64(f);
+        contentBlocks.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
+      } else if(isImg){
+        // Read as data URL so the browser sniffs the real media type from bytes
+        const dataUrl=await toDataUrl(f);
+        const match=dataUrl.match(/^data:(image\/[a-zA-Z0-9+.-]+);base64,(.+)$/);
+        if(!match)throw new Error('Could not read image: '+f.name);
+        let mt=match[1];
+        const b64=match[2];
+        // Only types Anthropic accepts
+        const allowed=['image/jpeg','image/png','image/gif','image/webp'];
+        if(!allowed.includes(mt))mt='image/jpeg';
+        contentBlocks.push({type:'image',source:{type:'base64',media_type:mt,data:b64}});
+      } else {
+        const txt=await toText(f);
+        contentBlocks.push({type:'text',text:'--- File: '+f.name+' ---\n'+txt.slice(0,5000)});
+      }
     }
   } else if(S.urlText){
-    content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+S.urlText}];
+    contentBlocks.push({type:'text',text:'CONTENT FROM URL:\n'+S.urlText});
   } else {
     const paste=document.getElementById('pasteArea').value.trim();
-    content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+paste.slice(0,7000)}];
+    contentBlocks.push({type:'text',text:'CONTENT:\n'+paste.slice(0,8000)});
   }
+
+  contentBlocks.push({type:'text',text:prompt});
 
   const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content}]})
+    headers:{
+      'Content-Type':'application/json',
+      'anthropic-version':'2023-06-01'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:4000,
+      messages:[{role:'user',content:contentBlocks}]
+    })
   });
-  if(!res.ok)throw new Error('API '+res.status);
+
+  if(!res.ok){
+    let errMsg='Status '+res.status;
+    try{const ed=await res.json();errMsg=ed.error?.message||errMsg;}catch(e){}
+    throw new Error(errMsg);
+  }
+
   const data=await res.json();
   if(data.error)throw new Error(data.error.message);
-  const raw=data.content.map(b=>b.text||'').join('');
-  const s=raw.indexOf('{'),e=raw.lastIndexOf('}');
-  if(s<0||e<0)throw new Error('bad response');
-  return JSON.parse(raw.slice(s,e+1));
+
+  const raw=data.content
+    .filter(b=>b.type==='text')
+    .map(b=>b.text)
+    .join('');
+
+  // Strip markdown fences if present
+  const cleaned=raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
+  const s=cleaned.indexOf('{'),e=cleaned.lastIndexOf('}');
+  if(s<0||e<0)throw new Error('Invalid JSON response');
+
+  let parsed;
+  try{parsed=JSON.parse(cleaned.slice(s,e+1));}
+  catch(je){throw new Error('JSON parse failed: '+je.message);}
+
+  // Validate
+  if(!parsed.questions||!Array.isArray(parsed.questions))throw new Error('Missing questions');
+  if(!parsed.podcast)throw new Error('Missing podcast');
+  if(!parsed.summary)throw new Error('Missing summary');
+
+  return parsed;
 }
 
+function toDataUrl(f){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=()=>rej(new Error('File read error'));
+    r.readAsDataURL(f);
+  });
+}
 function toB64(f){
   return new Promise((res,rej)=>{
     const r=new FileReader();
     r.onload=()=>res(r.result.split(',')[1]);
-    r.onerror=rej;r.readAsDataURL(f);
+    r.onerror=()=>rej(new Error('File read error'));
+    r.readAsDataURL(f);
   });
 }
 function toText(f){
   return new Promise((res,rej)=>{
     const r=new FileReader();
     r.onload=()=>res(r.result);
-    r.onerror=rej;r.readAsText(f);
+    r.onerror=()=>rej(new Error('File read error'));
+    r.readAsText(f);
   });
 }
 
-// ─── PROCESSING ANIMATION ─────────────────────────────────
+// ─── PROGRESS ─────────────────────────────────────────────
 function startProc(){
   pPct=0;let mi=0;
   const msgs=tx('msgs');
@@ -669,8 +738,8 @@ function startProc(){
   pInterval=setInterval(()=>{
     pPct=Math.min(pPct+1.8,90);
     document.getElementById('progBar').style.width=pPct+'%';
-    const ni=Math.floor((pPct/90)*msgs.length);
-    if(ni!==mi&&ni<msgs.length){
+    const ni=Math.min(Math.floor((pPct/90)*msgs.length),msgs.length-1);
+    if(ni!==mi){
       mi=ni;
       const el=document.getElementById('procMsg');
       el.style.opacity='0';
@@ -678,11 +747,17 @@ function startProc(){
     }
   },400);
 }
-function stopProc(){clearInterval(pInterval);document.getElementById('progBar').style.width='100%';}
+function stopProc(){
+  clearInterval(pInterval);
+  document.getElementById('progBar').style.width='100%';
+}
 
 // ─── VIEWS ────────────────────────────────────────────────
 function showV(v){
-  ['upload','proc','results'].forEach(x=>document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden',x!==v));
+  ['upload','proc','results'].forEach(x=>{
+    const cap=x.charAt(0).toUpperCase()+x.slice(1);
+    document.getElementById('v'+cap).classList.toggle('hidden',x!==v);
+  });
 }
 function tab(id){
   ['pod','sum','qst','gam'].forEach(t=>{
@@ -696,74 +771,92 @@ function showResults(){
   const r=S.results;
   document.getElementById('resTitle').innerHTML=tx('resTitle');
   document.getElementById('resSub').textContent=r.title||S.sourceTitle;
-
-  // Podcast
   document.getElementById('podName').textContent=r.title||S.sourceTitle;
   document.getElementById('scriptBox').textContent=r.podcast;
   buildWave();
-
-  // Summary
   document.getElementById('sumContent').textContent=r.summary;
-
-  // Questions
   buildQuestions();
-
-  // Game
   buildGameStart();
-
   showV('results');
-  tab('pod');
-  if(S.game)tab('gam');
+  tab(S.game?'gam':'pod');
 }
 
 // ─── WAVE ──────────────────────────────────────────────────
 function buildWave(){
-  const w=document.getElementById('wave');
-  w.innerHTML='';
+  const w=document.getElementById('wave');w.innerHTML='';
   for(let i=0;i<22;i++){
     const b=document.createElement('div');
-    b.className='wb';
-    b.style.height=(6+Math.random()*20)+'px';
+    b.className='wb';b.style.height=(6+Math.random()*20)+'px';
     w.appendChild(b);
   }
 }
 
 // ─── TTS ──────────────────────────────────────────────────
+function pickTTSVoice(lang,gender){
+  const voices=window.speechSynthesis.getVoices();
+  if(!voices.length)return null;
+  const langMap={en:'en',tr:'tr',az:'az',ru:'ru'};
+  const prefix=langMap[lang]||'en';
+  // Female name hints
+  const femHints=['female','woman','girl','zira','helena','karen','moira','samantha','victoria','fiona','tessa','veena','ioana'];
+  // Male name hints
+  const malHints=['male','man','david','mark','daniel','alex','fred','jorge','stefan','thomas','james','george'];
+  const hints=gender==='female'?femHints:malHints;
+  const opposite=gender==='female'?malHints:femHints;
+  // Filter by language prefix
+  const langVoices=voices.filter(v=>v.lang.toLowerCase().startsWith(prefix));
+  const pool=langVoices.length?langVoices:voices;
+  // Try to find gendered voice
+  const gendered=pool.find(v=>hints.some(h=>v.name.toLowerCase().includes(h)));
+  if(gendered)return gendered;
+  // Avoid opposite gender
+  const notOpposite=pool.filter(v=>!opposite.some(h=>v.name.toLowerCase().includes(h)));
+  return notOpposite[0]||pool[0]||voices[0]||null;
+}
+
 function toggleTTS(){
   if(S.ttsOn){
-    window.speechSynthesis.cancel();
-    S.ttsOn=false;
+    window.speechSynthesis.cancel();S.ttsOn=false;
     document.getElementById('playBtn').textContent='▶';
     document.getElementById('podPlayer').classList.remove('playing');
-  } else {
-    const langMap={en:'en-US',tr:'tr-TR',az:'tr-TR',ru:'ru-RU'};
-    const u=new SpeechSynthesisUtterance(S.results.podcast);
-    u.lang=langMap[S.lang];u.rate=0.93;
-    u.onend=()=>{S.ttsOn=false;document.getElementById('playBtn').textContent='▶';document.getElementById('podPlayer').classList.remove('playing');};
-    window.speechSynthesis.speak(u);
-    S.ttsOn=true;
-    document.getElementById('playBtn').textContent='■';
-    document.getElementById('podPlayer').classList.add('playing');
+    return;
   }
+  const langMap={en:'en-US',tr:'tr-TR',az:'az-AZ',ru:'ru-RU'};
+  const u=new SpeechSynthesisUtterance(S.results.podcast);
+  u.lang=langMap[S.lang]||'en-US';
+  u.rate=0.93;
+  // Set voice — voices may not be loaded yet, so try after a tick
+  const applyVoice=()=>{
+    const v=pickTTSVoice(S.lang,S.voice);
+    if(v)u.voice=v;
+  };
+  if(window.speechSynthesis.getVoices().length){applyVoice();}
+  else{window.speechSynthesis.onvoiceschanged=()=>{applyVoice();window.speechSynthesis.onvoiceschanged=null;};}
+  u.onend=()=>{S.ttsOn=false;document.getElementById('playBtn').textContent='▶';document.getElementById('podPlayer').classList.remove('playing');};
+  u.onerror=()=>{S.ttsOn=false;document.getElementById('playBtn').textContent='▶';document.getElementById('podPlayer').classList.remove('playing');};
+  window.speechSynthesis.cancel();
+  setTimeout(()=>window.speechSynthesis.speak(u),100);
+  S.ttsOn=true;
+  document.getElementById('playBtn').textContent='■';
+  document.getElementById('podPlayer').classList.add('playing');
 }
 
 // ─── QUESTIONS ────────────────────────────────────────────
 function buildQuestions(){
-  const list=document.getElementById('qList');
-  list.innerHTML='';
-  S.results.questions.forEach((q,i)=>{
+  const list=document.getElementById('qList');list.innerHTML='';
+  (S.results.questions||[]).forEach((q,i)=>{
     const d=document.createElement('div');
-    d.className='q-card';
-    d.style.animationDelay=(i*0.04)+'s';
-    const opts=q.options.map((o,j)=>`
+    d.className='q-card';d.style.animationDelay=(i*0.04)+'s';
+    const ABCD=tx('ABCD');
+    const opts=(q.options||[]).map((o,j)=>`
       <li class="opt-item" data-c="${j===q.correct}">
-        <span class="opt-ltr">${tx('ABCD')[j]}</span><span>${o}</span>
+        <span class="opt-ltr">${ABCD[j]||j}</span><span>${escH(o)}</span>
       </li>`).join('');
     d.innerHTML=`
       <div class="q-num">Q${i+1}</div>
-      <div class="q-text">${q.q}</div>
+      <div class="q-text">${escH(q.q)}</div>
       <ul class="opts-list" id="ol-${i}">${opts}</ul>
-      <div class="expl-box" id="ex-${i}">${tx('explLbl')} ${q.explanation}</div>
+      <div class="expl-box" id="ex-${i}">${tx('explLbl')} ${escH(q.explanation||'')}</div>
       <div class="ans-toggle">
         <button class="btn btn-ghost" style="font-size:0.78rem;padding:5px 12px" data-s="0" onclick="toggleAns(${i},this)">${tx('showAns')}</button>
       </div>`;
@@ -786,7 +879,7 @@ function toggleAns(i,btn){
 }
 
 // ─── GAME ─────────────────────────────────────────────────
-let gS={lives:3,score:0,qi:0};
+let gSt={lives:3,score:0,qi:0};
 
 function buildGameStart(){
   document.getElementById('gameArea').innerHTML=`
@@ -798,29 +891,30 @@ function buildGameStart(){
     </div>`;
 }
 function startGame(){
-  gS={lives:3,score:0,qi:0};gAnswered=false;gOver=false;
+  gSt={lives:3,score:0,qi:0};gAnswered=false;gOver=false;
   renderQ();
 }
 function renderQ(){
   gAnswered=false;
-  const q=S.results.questions[gS.qi],n=S.results.questions.length;
-  const hearts='❤️'.repeat(gS.lives)+'🖤'.repeat(3-gS.lives);
-  const opts=q.options.map((o,i)=>`<button class="gopt" id="go-${i}" onclick="pickAns(${i})">${tx('ABCD')[i]}. ${o}</button>`).join('');
+  const q=S.results.questions[gSt.qi],n=S.results.questions.length;
+  const ABCD=tx('ABCD');
+  const hearts='❤️'.repeat(gSt.lives)+'🖤'.repeat(3-gSt.lives);
+  const opts=(q.options||[]).map((o,i)=>`<button class="gopt" id="go-${i}" onclick="pickAns(${i})">${ABCD[i]||i}. ${escH(o)}</button>`).join('');
   document.getElementById('gameArea').innerHTML=`
     <div class="game-hud">
-      <div class="hud-box"><div class="hud-val" id="gScore">${gS.score}</div><div class="hud-lbl">${tx('scoreLbl')}</div></div>
+      <div class="hud-box"><div class="hud-val" id="gScore">${gSt.score}</div><div class="hud-lbl">${tx('scoreLbl')}</div></div>
       <div class="hud-box"><div class="hud-val" id="gLives">${hearts}</div><div class="hud-lbl">${tx('livesLbl')}</div></div>
       <div class="hud-box"><div class="hud-val" id="gTime">15</div><div class="hud-lbl">sec</div></div>
     </div>
     <div class="timer-bar"><div class="timer-fill" id="tFill" style="width:100%"></div></div>
     <div class="gq-card">
-      <div class="gq-prog">${tx('qLbl')} ${gS.qi+1} ${tx('ofLbl')} ${n}</div>
-      <div class="gq-text">${q.q}</div>
+      <div class="gq-prog">${tx('qLbl')} ${gSt.qi+1} ${tx('ofLbl')} ${n}</div>
+      <div class="gq-text">${escH(q.q)}</div>
     </div>
     <div class="gopts">${opts}</div>
     <div class="g-fb" id="gFb"></div>
     <button class="btn btn-lime hidden" id="nextBtn" onclick="nextQ()" style="width:100%;margin-top:12px;justify-content:center">
-      ${gS.qi+1<n?'→ '+tx('qLbl')+' '+(gS.qi+2):'📊 '+tx('finalScore')}
+      ${gSt.qi+1<n?'→ Next':'📊 '+tx('finalScore')}
     </button>`;
   startTimer();
 }
@@ -841,7 +935,7 @@ function startTimer(){
 function pickAns(idx){
   if(gAnswered||gOver)return;
   gAnswered=true;clearInterval(gTimer);
-  const q=S.results.questions[gS.qi];
+  const q=S.results.questions[gSt.qi];
   const ok=idx===q.correct;
   document.querySelectorAll('.gopt').forEach((b,i)=>{
     b.disabled=true;
@@ -850,24 +944,24 @@ function pickAns(idx){
   });
   const fb=document.getElementById('gFb');
   if(ok){
-    gS.score+=10+Math.max(0,gTLeft*2);
+    gSt.score+=10+Math.max(0,gTLeft*2);
     fb.className='g-fb show corr-fb';
-    fb.innerHTML=`<div class="fb-head fb-corr">${tx('correct')}</div><div class="fb-body">${q.explanation}</div>`;
-    const se=document.getElementById('gScore');if(se)se.textContent=gS.score;
+    fb.innerHTML=`<div class="fb-head fb-corr">${tx('correct')}</div><div class="fb-body">${escH(q.explanation||'')}</div>`;
+    const se=document.getElementById('gScore');if(se)se.textContent=gSt.score;
   } else {
-    gS.lives--;
+    gSt.lives--;
     fb.className='g-fb show wrng-fb';
-    fb.innerHTML=`<div class="fb-head fb-wrng">${tx('wrong')}</div><div class="fb-body">${tx('explLbl')} ${q.explanation}</div>`;
+    fb.innerHTML=`<div class="fb-head fb-wrng">${tx('wrong')}</div><div class="fb-body">${tx('explLbl')} ${escH(q.explanation||'')}</div>`;
     const le=document.getElementById('gLives');
-    if(le)le.textContent='❤️'.repeat(Math.max(0,gS.lives))+'🖤'.repeat(3-Math.max(0,gS.lives));
+    if(le)le.textContent='❤️'.repeat(Math.max(0,gSt.lives))+'🖤'.repeat(3-Math.max(0,gSt.lives));
   }
-  if(gS.lives<=0){gOver=true;setTimeout(()=>renderGameOver(false),1800);}
+  if(gSt.lives<=0){gOver=true;setTimeout(()=>renderGameOver(false),1800);}
   else{const nb=document.getElementById('nextBtn');if(nb)nb.classList.remove('hidden');}
 }
 function nextQ(){
   if(gOver)return;
-  gS.qi++;
-  if(gS.qi>=S.results.questions.length)renderGameOver(true);
+  gSt.qi++;
+  if(gSt.qi>=S.results.questions.length)renderGameOver(true);
   else renderQ();
 }
 function renderGameOver(won){
@@ -877,8 +971,8 @@ function renderGameOver(won){
       <span class="go-em">${won?'🏆':'💀'}</span>
       <div class="go-title">${won?tx('youWon'):tx('gameOver')}</div>
       <div class="final-lbl">${tx('finalScore')}</div>
-      <div class="final-score">${gS.score}</div>
-      <div class="final-lbl" style="margin-bottom:24px">${gS.qi} ${tx('ofLbl')} ${S.results.questions.length} answered</div>
+      <div class="final-score">${gSt.score}</div>
+      <div class="final-lbl" style="margin-bottom:24px">${gSt.qi} ${tx('ofLbl')} ${S.results.questions.length} answered</div>
       <div class="go-btns">
         <button class="btn btn-lime" onclick="startGame()">🔄 ${tx('tryAgain')}</button>
         <button class="btn btn-ghost" onclick="tab('qst')">📋 ${tx('backToRes')}</button>
@@ -889,54 +983,79 @@ function renderGameOver(won){
 // ─── PDF EXPORT ────────────────────────────────────────────
 function doPdf(){
   if(!S.results)return;
-  const r=S.results;
-  const ABCD=tx('ABCD');
-  const w=window.open('','_blank');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
-<title>LearnCast Export</title>
+  const r=S.results;const ABCD=tx('ABCD');
+  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>LearnCast — ${escH(r.title||S.sourceTitle)}</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'DM Sans',sans-serif;max-width:740px;margin:0 auto;padding:40px 32px;color:#1a1a2e;line-height:1.6}
-h1{font-size:1.6rem;font-weight:700;color:#2563eb;margin-bottom:4px}
-.sub{color:#64748b;font-size:0.85rem;margin-bottom:28px}
-h2{font-size:1.1rem;font-weight:700;color:#1e293b;border-left:4px solid #2563eb;padding-left:10px;margin:28px 0 12px}
-.sum{background:#f8fafc;border-radius:8px;padding:16px 20px;font-size:0.91rem;white-space:pre-wrap}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;max-width:720px;margin:0 auto;padding:40px 32px;color:#1a1a2e;line-height:1.65;font-size:15px}
+.hd{border-bottom:3px solid #2563eb;padding-bottom:16px;margin-bottom:28px}
+h1{font-size:1.5rem;font-weight:700;color:#2563eb;margin-bottom:4px}
+.meta{color:#64748b;font-size:0.82rem}
+h2{font-size:1rem;font-weight:700;color:#1e293b;background:#f1f5f9;border-left:4px solid #2563eb;padding:8px 12px;margin:28px 0 14px;border-radius:0 6px 6px 0}
+.podcast{background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:16px 20px;font-size:0.9rem;line-height:1.75;color:#0c4a6e;white-space:pre-wrap;margin-bottom:6px}
+.sum{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;font-size:0.9rem;white-space:pre-wrap;color:#334155}
 .qcard{border:1px solid #e2e8f0;border-radius:8px;padding:16px 18px;margin-bottom:12px;page-break-inside:avoid}
-.qnum{font-size:0.72rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.qtext{font-weight:600;margin-bottom:10px;font-size:0.93rem}
-.opt{padding:5px 10px;border-radius:4px;font-size:0.86rem;margin-bottom:3px}
-.opt.c{background:#dcfce7;color:#166534;font-weight:600}
-.expl{background:#eff6ff;color:#1d4ed8;font-size:0.82rem;padding:7px 12px;border-radius:4px;margin-top:8px}
-@media print{.noprint{display:none}body{padding:20px}}
+.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.qtext{font-weight:600;margin-bottom:10px;font-size:0.92rem;color:#1e293b}
+.opt{padding:5px 10px;border-radius:4px;font-size:0.85rem;margin-bottom:3px;color:#475569}
+.opt.c{background:#dcfce7;color:#166534;font-weight:600;border-radius:4px}
+.expl{background:#eff6ff;color:#1d4ed8;font-size:0.8rem;padding:7px 12px;border-radius:4px;margin-top:8px;border-left:3px solid #3b82f6}
+.footer{margin-top:40px;padding-top:16px;border-top:1px solid #e2e8f0;color:#94a3b8;font-size:0.78rem;text-align:center}
+.noprint{display:flex;gap:10px;position:fixed;top:16px;right:16px;z-index:99}
+.noprint button{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-size:0.88rem;font-weight:600}
+.pbtn{background:#2563eb;color:#fff}
+.dbtn{background:#f1f5f9;color:#1e293b}
+@media print{.noprint{display:none!important}body{padding:20px}}
 </style></head><body>
-<h1>LearnCast — ${escH(r.title||S.sourceTitle)}</h1>
-<div class="sub">Generated by LearnCast · ${new Date().toLocaleDateString()}</div>
-<h2>${tx('tbSum')}</h2>
+<div class="noprint">
+  <button class="pbtn" onclick="window.print()">🖨️ Print / Save PDF</button>
+  <button class="dbtn" onclick="window.close()">✕ Close</button>
+</div>
+<div class="hd">
+  <h1>📚 ${escH(r.title||S.sourceTitle)}</h1>
+  <div class="meta">LearnCast Export · ${new Date().toLocaleDateString()} · ${(r.questions||[]).length} questions</div>
+</div>
+<h2>🎙️ ${tx('tbPod')}</h2>
+<div class="podcast">${escH(r.podcast)}</div>
+<h2>📄 ${tx('tbSum')}</h2>
 <div class="sum">${escH(r.summary)}</div>
-<h2>${tx('tbQst')}</h2>
-${r.questions.map((q,i)=>`
+<h2>❓ ${tx('tbQst')}</h2>
+${(r.questions||[]).map((q,i)=>`
 <div class="qcard">
-<div class="qnum">Q${i+1}</div>
-<div class="qtext">${escH(q.q)}</div>
-${q.options.map((o,j)=>`<div class="opt${j===q.correct?' c':''}">${ABCD[j]}. ${escH(o)}${j===q.correct?' ✓':''}</div>`).join('')}
-<div class="expl">${escH(tx('explLbl'))} ${escH(q.explanation)}</div>
+  <div class="qnum">Q${i+1}</div>
+  <div class="qtext">${escH(q.q)}</div>
+  ${(q.options||[]).map((o,j)=>`<div class="opt${j===q.correct?' c':''}">${ABCD[j]||j}. ${escH(o)}${j===q.correct?' ✓':''}</div>`).join('')}
+  <div class="expl">💡 ${escH(q.explanation||'')}</div>
 </div>`).join('')}
-<script>window.onload=()=>setTimeout(()=>window.print(),400)<\/script>
-</body></html>`);
-  w.document.close();
+<div class="footer">Generated by LearnCast AI · learncast.app</div>
+</body></html>`;
+
+  // Use Blob URL — no popup blocker issues
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const blobUrl=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=blobUrl;a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(blobUrl),5000);
 }
-function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ─── HELPERS ──────────────────────────────────────────────
+function escH(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 // ─── RESET ────────────────────────────────────────────────
 function reset(){
   window.speechSynthesis?.cancel();
-  S.file=null;S.urlText=null;S.results=null;S.ttsOn=false;
+  S.files=[];S.urlText=null;S.results=null;S.ttsOn=false;S.sourceTitle='Content';
   document.getElementById('fileInput').value='';
   document.getElementById('urlInp').value='';
   document.getElementById('pasteArea').value='';
-  document.getElementById('fileBadge').classList.add('hidden');
+  document.getElementById('fileBadges').innerHTML='';
   document.getElementById('urlStatus').innerHTML='';
-  clearInterval(gTimer);
+  hideErr();clearInterval(gTimer);
   showV('upload');
 }
 
