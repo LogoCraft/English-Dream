@@ -1,29 +1,947 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masroxx website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnCast — AI Learning Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08090e;
+  --surface: #0d0f17;
+  --card: #13151f;
+  --card2: #191c28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --lime: #c8ff40;
+  --lime-dim: rgba(200,255,64,0.12);
+  --cyan: #40e0ff;
+  --cyan-dim: rgba(64,224,255,0.1);
+  --coral: #ff5f5f;
+  --coral-dim: rgba(255,95,95,0.12);
+  --amber: #ffb840;
+  --green: #40c880;
+  --text: #eef0ff;
+  --muted: #5a6280;
+  --muted2: #8890b0;
+  --font-head: 'Syne', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --r: 12px;
+  --r-sm: 8px;
+  --r-lg: 20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(200,255,64,0.04) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 85% 90%,rgba(64,224,255,0.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+img,svg{max-width:100%}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(8,9,14,0.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.logo{font-family:var(--font-head);font-size:1.3rem;font-weight:900;color:var(--lime);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;background:var(--lime);border-radius:50%;display:inline-block}
+.lang-row{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px}
+.lb{padding:4px 10px;border-radius:5px;border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;font-weight:500;cursor:pointer;transition:all 0.15s;letter-spacing:0.04em}
+.lb.on{background:var(--lime);color:#08090e}
+.lb:hover:not(.on){color:var(--text)}
+
+/* MAIN */
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px;position:relative;z-index:1}
+
+/* HERO */
+.hero{text-align:center;padding:40px 0 36px}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.4rem,6vw,4rem);font-weight:900;letter-spacing:-0.03em;line-height:1.05;color:var(--text);margin-bottom:10px}
+.hero h1 span{color:var(--lime)}
+.hero p{font-size:0.97rem;color:var(--muted2);max-width:460px;margin:0 auto}
+
+/* INPUT TYPE TABS */
+.src-tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:1px}
+.src-tab{flex:1;padding:9px 12px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.src-tab.on{background:var(--card2);color:var(--text)}
+.src-tab:hover:not(.on){color:var(--text);background:rgba(255,255,255,0.03)}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px}
+
+/* UPLOAD ZONE */
+.drop-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:36px 24px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:rgba(200,255,64,0.02)}
+.drop-zone:hover,.drop-zone.over{border-color:var(--lime);background:var(--lime-dim)}
+.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.dz-icon{font-size:2.4rem;display:block;margin-bottom:10px}
+.dz-title{font-size:1rem;font-weight:600;margin-bottom:4px}
+.dz-sub{font-size:0.82rem;color:var(--muted2)}
+.file-tag{display:inline-flex;align-items:center;gap:6px;background:var(--lime-dim);border:1px solid rgba(200,255,64,0.25);color:var(--lime);padding:5px 12px;border-radius:20px;font-family:var(--font-mono);font-size:0.75rem;margin-top:10px}
+
+/* URL INPUT */
+.url-row{display:flex;gap:8px}
+.url-inp{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:0.9rem;outline:none;transition:border-color 0.15s}
+.url-inp:focus{border-color:var(--cyan)}
+.url-inp::placeholder{color:var(--muted)}
+
+/* TEXTAREA */
+.paste-area{width:100%;min-height:140px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;color:var(--text);font-family:var(--font-body);font-size:0.88rem;line-height:1.6;outline:none;resize:vertical;transition:border-color 0.15s}
+.paste-area:focus{border-color:var(--cyan)}
+.paste-area::placeholder{color:var(--muted)}
+
+/* SETTINGS */
+.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:560px){.settings-row{grid-template-columns:1fr}}
+.sl{font-family:var(--font-mono);font-size:0.7rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.ob{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s}
+.ob.on{background:var(--lime);border-color:var(--lime);color:#08090e;font-weight:600}
+.ob:hover:not(.on){border-color:var(--lime);color:var(--text)}
+
+/* TOGGLE */
+.tog-row{display:flex;align-items:center;gap:12px;padding:16px 0 4px}
+.tog{position:relative;width:42px;height:22px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-track{position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:background 0.2s}
+.tog-track::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:var(--muted2);border-radius:50%;transition:all 0.2s}
+.tog input:checked~.tog-track{background:var(--lime)}
+.tog input:checked~.tog-track::after{transform:translateX(20px);background:#08090e}
+.tog-lbl{font-size:0.9rem;font-weight:500;cursor:pointer;user-select:none}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-sm);border:none;font-family:var(--font-body);font-weight:600;font-size:0.88rem;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.btn-lime{background:var(--lime);color:#08090e}
+.btn-lime:hover{opacity:0.9;transform:translateY(-1px)}
+.btn-lime:active{transform:translateY(0)}
+.btn-ghost{background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text)}
+.btn-ghost:hover{border-color:var(--border2);background:rgba(255,255,255,0.09)}
+.btn-gen{width:100%;justify-content:center;padding:14px 24px;font-size:1rem;border-radius:var(--r);margin-top:20px;letter-spacing:0.01em}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important}
+
+/* PROCESSING */
+.proc-wrap{text-align:center;padding:80px 20px}
+.spinner{width:80px;height:80px;margin:0 auto 28px;position:relative}
+.sp-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--lime);animation:spin 1s linear infinite}
+.sp-ring2{position:absolute;inset:8px;border-radius:50%;border:2px solid transparent;border-top-color:var(--cyan);animation:spin 1.5s linear infinite reverse}
+.sp-inner{position:absolute;inset:18px;border-radius:50%;background:var(--lime-dim);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.proc-title{font-family:var(--font-head);font-size:1.6rem;font-weight:800;margin-bottom:8px}
+.proc-msg{color:var(--muted2);font-size:0.9rem;min-height:22px;transition:opacity 0.3s}
+.prog-outer{width:260px;height:3px;background:var(--border);border-radius:2px;margin:20px auto 0;overflow:hidden}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--lime),var(--cyan));border-radius:2px;width:0;transition:width 0.6s ease}
+
+/* RESULTS HEADER */
+.res-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.res-hdr-left{display:flex;flex-direction:column;gap:2px}
+.res-title{font-family:var(--font-head);font-size:1.2rem;font-weight:800;color:var(--lime)}
+.res-sub{font-size:0.8rem;color:var(--muted2)}
+.res-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px;margin-bottom:18px;overflow-x:auto}
+.tab-btn{flex:1;min-width:72px;padding:7px 12px;border-radius:6px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-body);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:5px}
+.tab-btn.on{background:var(--card2);color:var(--text)}
+.tab-btn:hover:not(.on){color:var(--text)}
+.tc{display:none}
+.tc.on{display:block}
+
+/* PODCAST */
+.pod-player{background:var(--lime-dim);border:1px solid rgba(200,255,64,0.15);border-radius:var(--r);padding:22px;display:flex;align-items:center;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.play-btn{width:52px;height:52px;border-radius:50%;background:var(--lime);border:none;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;color:#08090e;flex-shrink:0}
+.play-btn:hover{transform:scale(1.05)}
+.wave{display:flex;align-items:center;gap:3px;height:36px;flex:1;min-width:80px}
+.wb{width:3px;border-radius:2px;background:var(--lime);opacity:0.35;animation:widle 1.8s ease-in-out infinite}
+.wb:nth-child(2n){animation-delay:0.15s}
+.wb:nth-child(3n){animation-delay:0.3s}
+.wb:nth-child(4n){animation-delay:0.08s}
+.wb:nth-child(5n){animation-delay:0.22s}
+.wb:nth-child(7n){animation-delay:0.45s}
+@keyframes widle{0%,100%{height:6px}50%{height:22px}}
+.playing .wb{opacity:0.9;animation:wplay 0.7s ease-in-out infinite}
+.playing .wb:nth-child(2n){animation-delay:0.07s}
+.playing .wb:nth-child(3n){animation-delay:0.14s}
+.playing .wb:nth-child(4n){animation-delay:0.21s}
+.playing .wb:nth-child(5n){animation-delay:0.28s}
+@keyframes wplay{0%,100%{height:5px}50%{height:34px}}
+.pod-info{flex:1}
+.pod-label{font-family:var(--font-mono);font-size:0.68rem;color:var(--lime);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px}
+.pod-name{font-weight:600;font-size:0.95rem}
+.script-box{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;font-size:0.88rem;line-height:1.75;color:var(--muted2);max-height:220px;overflow-y:auto}
+
+/* SUMMARY */
+.sum-content{font-size:0.93rem;line-height:1.85;color:var(--muted2);white-space:pre-wrap}
+
+/* QUESTIONS */
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:10px;animation:fadein 0.3s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.q-num{font-family:var(--font-mono);font-size:0.68rem;color:var(--lime);font-weight:500;margin-bottom:5px;letter-spacing:0.05em}
+.q-text{font-size:0.93rem;font-weight:600;line-height:1.5;margin-bottom:12px}
+.opts-list{list-style:none;display:grid;gap:5px}
+.opt-item{padding:7px 12px;border-radius:var(--r-sm);border:1px solid var(--border);font-size:0.83rem;color:var(--muted2);display:flex;gap:8px;transition:all 0.15s}
+.opt-item.corr{background:rgba(64,200,128,0.1);border-color:rgba(64,200,128,0.3);color:#6ee7b0}
+.opt-ltr{font-family:var(--font-mono);font-weight:500;color:var(--muted);min-width:14px}
+.opt-item.corr .opt-ltr{color:var(--green)}
+.expl-box{background:var(--cyan-dim);border:1px solid rgba(64,224,255,0.15);border-radius:var(--r-sm);padding:10px 14px;font-size:0.82rem;color:#a0e8ff;margin-top:8px;display:none;line-height:1.6}
+.expl-box.show{display:block}
+.ans-toggle{margin-top:9px}
+
+/* GAME */
+.game-start-card{text-align:center;padding:44px 24px}
+.gs-icon{font-size:4rem;margin-bottom:14px;display:block}
+.gs-title{font-family:var(--font-head);font-size:1.8rem;font-weight:900;margin-bottom:6px}
+.gs-sub{color:var(--muted2);font-size:0.9rem;line-height:1.6;margin-bottom:24px}
+
+.game-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.hud-box{text-align:center}
+.hud-val{font-family:var(--font-head);font-size:1.4rem;font-weight:900;line-height:1}
+.hud-lbl{font-family:var(--font-mono);font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.timer-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.timer-fill{height:100%;background:var(--lime);border-radius:2px;transition:width 0.1s linear}
+.timer-fill.warn{background:var(--amber)}
+.timer-fill.dang{background:var(--coral)}
+
+.gq-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.gq-prog{font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:6px}
+.gq-text{font-size:1rem;font-weight:600;line-height:1.5}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:480px){.gopts{grid-template-columns:1fr}}
+.gopt{padding:13px 14px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--card);color:var(--text);font-family:var(--font-body);font-size:0.88rem;font-weight:500;cursor:pointer;transition:all 0.15s;text-align:left;line-height:1.4}
+.gopt:hover:not(:disabled){border-color:var(--lime);background:var(--lime-dim)}
+.gopt.corr{background:rgba(64,200,128,0.12);border-color:var(--green);color:#6ee7b0}
+.gopt.wrng{background:var(--coral-dim);border-color:var(--coral);color:#fca5a5}
+.gopt:disabled{cursor:default}
+.g-fb{margin-top:12px;padding:14px;border-radius:var(--r);display:none}
+.g-fb.show{display:block}
+.g-fb.corr-fb{background:rgba(64,200,128,0.08);border:1px solid rgba(64,200,128,0.2)}
+.g-fb.wrng-fb{background:var(--coral-dim);border:1px solid rgba(255,95,95,0.2)}
+.fb-head{font-weight:700;margin-bottom:3px;font-size:0.95rem}
+.fb-corr .fb-head{color:var(--green)}
+.fb-wrng .fb-head{color:var(--coral)}
+.fb-body{font-size:0.83rem;color:var(--muted2)}
+
+.go-card{text-align:center;padding:44px 24px}
+.go-em{font-size:5rem;display:block;margin-bottom:14px}
+.go-title{font-family:var(--font-head);font-size:2rem;font-weight:900;margin-bottom:6px}
+.final-score{font-family:var(--font-head);font-size:4.5rem;font-weight:900;color:var(--lime);line-height:1;margin:16px 0 6px}
+.final-lbl{font-size:0.85rem;color:var(--muted2);margin-bottom:24px}
+.go-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* STATUS */
+.status-ok{color:var(--green);font-size:0.82rem;font-family:var(--font-mono)}
+.status-err{color:var(--coral);font-size:0.82rem;font-family:var(--font-mono)}
+.status-info{color:var(--muted2);font-size:0.82rem;font-family:var(--font-mono)}
+.mt8{margin-top:8px}
+.mt16{margin-top:16px}
+.divider{height:1px;background:var(--border);margin:18px 0}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
 </head>
-<body style="background-color:rgb(82, 82, 82);">
-<h1 style="background-color: rgb(190, 128, 11);">Masroxx website</h1>
-<hr>
-<p style="background-color: rgb(190, 128, 11);">Masroxx</p>
-  <a style="background-color: rgb(190, 128, 11);" href="https://www.youtube.com/" target="_self" >
-         youtube entrance
-  </a>
-  <img  style="background-color: rgb(180, 24, 24);" src="images/98a6a7a1-dc98-47c4-a818-9d8204da0531.png" title="lexomanya" height="80">
-  <audio  style="background-color: rgb(190, 128, 11);" controls loop src="ŞEVVAL - Nerdeydin De  [ Official Video ].mp3"></audio>
-   <p  style="background-color: rgb(190, 128, 11);"> Masroxx I love you</p>
-  <p  style="background-color: rgb(190, 128, 11);"> Masroxx I <b>love</b> you</p>
-    <p  style="background-color: rgb(190, 128, 11);" Masroxx I <i>love</i> you</p>
-    <p style="background-color: rgb(190, 128, 11);"> Masroxx I <big>love</big> you</p>
-  <p style="background-color: rgb(190, 128, 11);"> Masroxx I <small>love</small> you</p>
-  <p  style="background-color: rgb(190, 128, 11);"> Masroxx I <sub>love</sub> you</p>
-  <p  style="background-color: rgb(190, 128, 11);"> Masroxx I <ins>love</ins> you</p>
-  <p style="background-color: rgb(190, 128, 11);"> Masroxx I <del>love</del> you</p>
-  <p style="background-color: rgb(190, 128, 11);"> Masroxx I <mark>love</mark>  you</p>
-  <footer>
-    <hr>
-    <p  style="background-color: rgb(190, 128, 11);">Copyright © 2024 Masroxx</p>
+<body>
+
+<header class="hdr">
+  <div class="logo"><span class="logo-dot"></span>LearnCast</div>
+  <div class="lang-row">
+    <button class="lb" onclick="setL('az')">AZ</button>
+    <button class="lb on" onclick="setL('en')">EN</button>
+    <button class="lb" onclick="setL('tr')">TR</button>
+    <button class="lb" onclick="setL('ru')">RU</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- UPLOAD VIEW -->
+  <div id="vUpload">
+    <div class="hero">
+      <h1 id="hTitle">Learn<span>Cast</span></h1>
+      <p id="hSub">Transform any document, image or link into a podcast, summary and interactive quiz.</p>
+    </div>
+
+    <div class="card">
+      <!-- Source type tabs -->
+      <div class="src-tabs" style="margin-bottom:14px">
+        <button class="src-tab on" id="stFile" onclick="setSrc('file')">📁 <span id="stFileLbl">File</span></button>
+        <button class="src-tab" id="stUrl" onclick="setSrc('url')">🔗 <span id="stUrlLbl">URL</span></button>
+        <button class="src-tab" id="stText" onclick="setSrc('text')">✏️ <span id="stTextLbl">Paste Text</span></button>
+      </div>
+
+      <!-- File -->
+      <div id="srcFile">
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="fileInput" accept=".pdf,.txt,.md,.csv,image/*">
+          <span class="dz-icon">📂</span>
+          <div class="dz-title" id="dzTitle">Drag & drop or click to upload</div>
+          <div class="dz-sub" id="dzSub">PDF · Images · Text files</div>
+          <div id="fileBadge" class="file-tag hidden"></div>
+        </div>
+      </div>
+
+      <!-- URL -->
+      <div id="srcUrl" class="hidden">
+        <label class="sl" id="urlLbl">Paste a URL</label>
+        <div class="url-row">
+          <input type="url" class="url-inp" id="urlInp" placeholder="https://...">
+          <button class="btn btn-ghost" id="fetchBtn" onclick="doFetch()">🔗 <span id="fetchLbl">Fetch</span></button>
+        </div>
+        <div id="urlStatus" class="mt8"></div>
+      </div>
+
+      <!-- Text -->
+      <div id="srcText" class="hidden">
+        <label class="sl" id="textLbl">Paste your text</label>
+        <textarea class="paste-area" id="pasteArea" placeholder="Paste any text here — articles, notes, lecture transcripts, book excerpts…"></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Settings -->
+      <div class="settings-row">
+        <div>
+          <span class="sl" id="qcLbl">Questions</span>
+          <div class="opts">
+            <button class="ob" onclick="setOpt('qc',5,this)">5</button>
+            <button class="ob on" onclick="setOpt('qc',10,this)">10</button>
+            <button class="ob" onclick="setOpt('qc',15,this)">15</button>
+          </div>
+        </div>
+        <div>
+          <span class="sl" id="diffLbl">Difficulty</span>
+          <div class="opts">
+            <button class="ob on" id="dEasy" onclick="setOpt('diff','easy',this)">😊 <span id="dEasyL">Easy</span></button>
+            <button class="ob" id="dFun" onclick="setOpt('diff','fun',this)">🎉 <span id="dFunL">Fun</span></button>
+            <button class="ob" id="dHard" onclick="setOpt('diff','hard',this)">🔥 <span id="dHardL">Hard</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tog-row">
+        <label class="tog"><input type="checkbox" id="gameTog" onchange="S.game=this.checked"><span class="tog-track"></span></label>
+        <span class="tog-lbl" id="gameModeLbl">Game Mode</span>
+      </div>
+
+      <button class="btn btn-lime btn-gen" id="genBtn" onclick="doGenerate()">✨ <span id="genLbl">Generate Learning Content</span></button>
+    </div>
+  </div>
+
+  <!-- PROCESSING VIEW -->
+  <div id="vProc" class="hidden">
+    <div class="proc-wrap">
+      <div class="spinner">
+        <div class="sp-ring"></div>
+        <div class="sp-ring2"></div>
+        <div class="sp-inner">🤖</div>
+      </div>
+      <div class="proc-title" id="procTitle">Generating...</div>
+      <div class="proc-msg" id="procMsg"></div>
+      <div class="prog-outer"><div class="prog-inner" id="progBar"></div></div>
+    </div>
+  </div>
+
+  <!-- RESULTS VIEW -->
+  <div id="vResults" class="hidden">
+    <div class="res-hdr">
+      <div class="res-hdr-left">
+        <div class="res-title" id="resTitle">✅ Content Ready</div>
+        <div class="res-sub" id="resSub"></div>
+      </div>
+      <div class="res-actions">
+        <button class="btn btn-ghost" onclick="doPdf()">📄 <span id="pdfLbl">PDF</span></button>
+        <button class="btn btn-ghost" onclick="reset()">↩ <span id="newLbl">New</span></button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn on" onclick="tab('pod')" id="tb-pod">🎙️ <span id="tbPod">Podcast</span></button>
+      <button class="tab-btn" onclick="tab('sum')" id="tb-sum">📄 <span id="tbSum">Summary</span></button>
+      <button class="tab-btn" onclick="tab('qst')" id="tb-qst">❓ <span id="tbQst">Questions</span></button>
+      <button class="tab-btn" onclick="tab('gam')" id="tb-gam">🎮 <span id="tbGam">Game</span></button>
+    </div>
+
+    <div class="tc on" id="tc-pod">
+      <div class="pod-player" id="podPlayer">
+        <button class="play-btn" id="playBtn" onclick="toggleTTS()">▶</button>
+        <div class="wave" id="wave"></div>
+        <div class="pod-info">
+          <div class="pod-label">Podcast</div>
+          <div class="pod-name" id="podName">Your Episode</div>
+        </div>
+      </div>
+      <div class="script-box" id="scriptBox"></div>
+    </div>
+
+    <div class="tc" id="tc-sum">
+      <div class="card"><div class="sum-content" id="sumContent"></div></div>
+    </div>
+
+    <div class="tc" id="tc-qst">
+      <div id="qList"></div>
+    </div>
+
+    <div class="tc" id="tc-gam">
+      <div id="gameArea"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const L={
+  en:{
+    hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
+    hSub:'Transform any document, image or link into a podcast, summary and interactive quiz.',
+    stFileLbl:'File',stUrlLbl:'URL',stTextLbl:'Paste Text',
+    dzTitle:'Drag & drop or click to upload',dzSub:'PDF · Images · Text files',
+    urlLbl:'Paste a URL',fetchLbl:'Fetch',textLbl:'Paste your text',
+    qcLbl:'Questions',diffLbl:'Difficulty',dEasyL:'Easy',dFunL:'Fun',dHardL:'Hard',
+    gameModeLbl:'Game Mode',genLbl:'Generate Learning Content',
+    procTitle:'Generating your content…',
+    msgs:['Reading your content…','Crafting podcast script…','Writing summary…','Generating questions…','Almost ready…'],
+    tbPod:'Podcast',tbSum:'Summary',tbQst:'Questions',tbGam:'Game',
+    pdfLbl:'Export PDF',newLbl:'New',resTitle:'✅ Content Ready',
+    showAns:'Show Answer',hideAns:'Hide Answer',explLbl:'Explanation:',
+    gsTitle:'Ready to play?',gsSub:'Answer correctly to score points. You have 3 lives and 15 seconds per question.',
+    startGame:'Start Game 🚀',livesLbl:'Lives',scoreLbl:'Score',
+    qLbl:'Question',ofLbl:'of',
+    correct:'✅ Correct!',wrong:'❌ Wrong!',
+    gameOver:'Game Over!',youWon:'You Won! 🏆',
+    finalScore:'Final Score',tryAgain:'Try Again',backToRes:'Back',
+    errFetch:'Could not fetch URL. Try a different link or paste the text manually.',
+    errProc:'Failed to process. Please try again.',
+    fetchingMsg:'Fetching content…',fetchedMsg:'✅ Content fetched successfully',
+    ABCD:['A','B','C','D'],
+    diffDesc:{easy:'simple comprehension questions for beginners',fun:'fun, creative and trivia-style questions',hard:'challenging analytical and critical thinking questions'},
+    langName:'English'
+  },
+  tr:{
+    hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
+    hSub:'Herhangi bir dokümanı, görseli veya linki podcast, özet ve interaktif teste dönüştür.',
+    stFileLbl:'Dosya',stUrlLbl:'URL',stTextLbl:'Metin Yapıştır',
+    dzTitle:'Sürükle & bırak veya tıkla',dzSub:'PDF · Görseller · Metin dosyaları',
+    urlLbl:'URL yapıştır',fetchLbl:'Getir',textLbl:'Metni yapıştır',
+    qcLbl:'Soru Sayısı',diffLbl:'Zorluk',dEasyL:'Kolay',dFunL:'Eğlenceli',dHardL:'Zor',
+    gameModeLbl:'Oyun Modu',genLbl:'Öğrenme İçeriği Oluştur',
+    procTitle:'İçeriğiniz oluşturuluyor…',
+    msgs:['İçerik okunuyor…','Podcast senaryosu yazılıyor…','Özet hazırlanıyor…','Sorular oluşturuluyor…','Neredeyse hazır…'],
+    tbPod:'Podcast',tbSum:'Özet',tbQst:'Sorular',tbGam:'Oyun',
+    pdfLbl:'PDF İndir',newLbl:'Yeni',resTitle:'✅ İçerik Hazır',
+    showAns:'Cevabı Göster',hideAns:'Cevabı Gizle',explLbl:'Açıklama:',
+    gsTitle:'Oynamaya hazır mısın?',gsSub:'Doğru cevapla puan kazan. 3 canın ve soru başına 15 saniyeni var.',
+    startGame:'Oyuna Başla 🚀',livesLbl:'Can',scoreLbl:'Puan',
+    qLbl:'Soru',ofLbl:'/',
+    correct:'✅ Doğru!',wrong:'❌ Yanlış!',
+    gameOver:'Oyun Bitti!',youWon:'Kazandın! 🏆',
+    finalScore:'Son Puan',tryAgain:'Tekrar Dene',backToRes:'Geri',
+    errFetch:'URL getirilemedi. Farklı bir link deneyin veya metni yapıştırın.',
+    errProc:'İşlem başarısız. Lütfen tekrar deneyin.',
+    fetchingMsg:'İçerik getiriliyor…',fetchedMsg:'✅ İçerik başarıyla getirildi',
+    ABCD:['A','B','C','D'],
+    diffDesc:{easy:'başlangıç seviyesi için basit anlama soruları',fun:'eğlenceli, yaratıcı ve trivia tarzı sorular',hard:'zorlu analitik ve eleştirel düşünme soruları'},
+    langName:'Turkish'
+  },
+  az:{
+    hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
+    hSub:'İstənilən sənədi, şəkli və ya linki podcast, xülasə və interaktiv testə çevirin.',
+    stFileLbl:'Fayl',stUrlLbl:'URL',stTextLbl:'Mətn Yapışdır',
+    dzTitle:'Sürüklə & burax və ya klikla',dzSub:'PDF · Şəkillər · Mətn faylları',
+    urlLbl:'URL yapışdır',fetchLbl:'Gətir',textLbl:'Mətni yapışdır',
+    qcLbl:'Sual Sayı',diffLbl:'Çətinlik',dEasyL:'Asan',dFunL:'Əyləncəli',dHardL:'Çətin',
+    gameModeLbl:'Oyun Rejimi',genLbl:'Öyrənmə Məzmunu Yarat',
+    procTitle:'Məzmununuz yaradılır…',
+    msgs:['Məzmun oxunur…','Podcast ssenarisi yazılır…','Xülasə hazırlanır…','Suallar yaradılır…','Az qaldı…'],
+    tbPod:'Podcast',tbSum:'Xülasə',tbQst:'Suallar',tbGam:'Oyun',
+    pdfLbl:'PDF İxrac',newLbl:'Yeni',resTitle:'✅ Məzmun Hazırdır',
+    showAns:'Cavabı Göstər',hideAns:'Cavabı Gizlə',explLbl:'İzahat:',
+    gsTitle:'Oynamağa hazırsınız?',gsSub:'Düzgün cavab verin, bal qazanın. 3 canınız və hər sual üçün 15 saniyəniz var.',
+    startGame:'Oyuna Başla 🚀',livesLbl:'Can',scoreLbl:'Bal',
+    qLbl:'Sual',ofLbl:'/',
+    correct:'✅ Düzgün!',wrong:'❌ Yanlış!',
+    gameOver:'Oyun Bitdi!',youWon:'Qazandınız! 🏆',
+    finalScore:'Yekun Bal',tryAgain:'Yenidən',backToRes:'Geri',
+    errFetch:'URL gətirilə bilmədi. Başqa link sınayın və ya mətni yapışdırın.',
+    errProc:'Emal uğursuz oldu. Yenidən cəhd edin.',
+    fetchingMsg:'Məzmun gətirilir…',fetchedMsg:'✅ Məzmun uğurla gətirildi',
+    ABCD:['A','B','C','D'],
+    diffDesc:{easy:'yeni başlayanlar üçün sadə anlama sualları',fun:'əyləncəli, yaradıcı və viktorina tipli suallar',hard:'çətin analitik və tənqidi düşüncə sualları'},
+    langName:'Azerbaijani'
+  },
+  ru:{
+    hTitle:'Learn<span style="color:var(--lime)">Cast</span>',
+    hSub:'Превратите любой документ, изображение или ссылку в подкаст, резюме и интерактивный тест.',
+    stFileLbl:'Файл',stUrlLbl:'URL',stTextLbl:'Вставить текст',
+    dzTitle:'Перетащите или нажмите для загрузки',dzSub:'PDF · Изображения · Текстовые файлы',
+    urlLbl:'Вставьте URL',fetchLbl:'Загрузить',textLbl:'Вставьте текст',
+    qcLbl:'Вопросы',diffLbl:'Сложность',dEasyL:'Лёгкий',dFunL:'Весёлый',dHardL:'Трудный',
+    gameModeLbl:'Игровой режим',genLbl:'Создать учебный контент',
+    procTitle:'Создаём ваш контент…',
+    msgs:['Читаем контент…','Пишем сценарий подкаста…','Составляем резюме…','Генерируем вопросы…','Почти готово…'],
+    tbPod:'Подкаст',tbSum:'Резюме',tbQst:'Вопросы',tbGam:'Игра',
+    pdfLbl:'Экспорт PDF',newLbl:'Новый',resTitle:'✅ Контент готов',
+    showAns:'Показать ответ',hideAns:'Скрыть ответ',explLbl:'Объяснение:',
+    gsTitle:'Готовы играть?',gsSub:'Отвечайте правильно и зарабатывайте очки. У вас 3 жизни и 15 секунд на вопрос.',
+    startGame:'Начать игру 🚀',livesLbl:'Жизни',scoreLbl:'Счёт',
+    qLbl:'Вопрос',ofLbl:'из',
+    correct:'✅ Правильно!',wrong:'❌ Неверно!',
+    gameOver:'Игра окончена!',youWon:'Вы выиграли! 🏆',
+    finalScore:'Финальный счёт',tryAgain:'Ещё раз',backToRes:'Назад',
+    errFetch:'Не удалось загрузить URL. Попробуйте другую ссылку или вставьте текст.',
+    errProc:'Ошибка обработки. Попробуйте снова.',
+    fetchingMsg:'Загружаем контент…',fetchedMsg:'✅ Контент успешно загружен',
+    ABCD:['A','B','C','D'],
+    diffDesc:{easy:'простые вопросы на понимание для начинающих',fun:'увлекательные, творческие и викторинные вопросы',hard:'сложные аналитические вопросы и вопросы критического мышления'},
+    langName:'Russian'
+  }
+};
+
+const S={lang:'en',srcType:'file',qc:10,diff:'easy',game:false,
+  file:null,urlText:null,sourceTitle:'Content',results:null,ttsOn:false};
+
+let pInterval=null,pPct=0,gTimer=null,gTLeft=15,gAnswered=false,gOver=false;
+
+// ─── LANG ───────────────────────────────────────────────
+function setL(l){
+  S.lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+  const t=L[l];
+  const ids=['hTitle','hSub','stFileLbl','stUrlLbl','stTextLbl','dzTitle','dzSub','urlLbl',
+    'fetchLbl','textLbl','qcLbl','diffLbl','dEasyL','dFunL','dHardL','gameModeLbl','genLbl',
+    'procTitle','tbPod','tbSum','tbQst','tbGam','pdfLbl','newLbl'];
+  ids.forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});
+  if(document.getElementById('hTitle'))document.getElementById('hTitle').innerHTML=t.hTitle;
+  if(document.getElementById('hSub'))document.getElementById('hSub').innerHTML=t.hSub;
+}
+function tx(k){return L[S.lang][k]||L.en[k]||k;}
+
+// ─── SOURCE TYPE ─────────────────────────────────────────
+function setSrc(type){
+  S.srcType=type;
+  ['file','url','text'].forEach(t=>{
+    document.getElementById('st'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('on',t===type);
+    document.getElementById('src'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('hidden',t!==type);
+  });
+}
+
+// ─── SETTINGS ─────────────────────────────────────────────
+function setOpt(key,val,btn){
+  S[key]=val;
+  const parent=btn.closest('.opts');
+  parent.querySelectorAll('.ob').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// ─── FILE HANDLING ────────────────────────────────────────
+const fi=document.getElementById('fileInput');
+const dz=document.getElementById('dropZone');
+fi.addEventListener('change',e=>{if(e.target.files[0])pickFile(e.target.files[0]);});
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])pickFile(e.dataTransfer.files[0]);});
+
+function pickFile(f){
+  S.file=f;S.urlText=null;S.sourceTitle=f.name;
+  const b=document.getElementById('fileBadge');
+  b.textContent='📎 '+f.name;b.classList.remove('hidden');
+}
+
+// ─── URL FETCH ────────────────────────────────────────────
+async function doFetch(){
+  const url=document.getElementById('urlInp').value.trim();
+  if(!url)return;
+  setStatus('info',tx('fetchingMsg'));
+  try{
+    const text=await fetchURL(url);
+    S.urlText=text;S.file=null;S.sourceTitle=url.replace(/^https?:\/\//,'').slice(0,60);
+    const b=document.getElementById('fileBadge');
+    b.textContent='🔗 '+S.sourceTitle;b.classList.remove('hidden');
+    setStatus('ok',tx('fetchedMsg'));
+  }catch(e){setStatus('err',tx('errFetch'));}
+}
+
+async function fetchURL(url){
+  const proxies=[
+    'https://corsproxy.io/?'+encodeURIComponent(url),
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(url)
+  ];
+  for(const p of proxies){
+    try{
+      const r=await fetch(p,{signal:AbortSignal.timeout(12000)});
+      if(r.ok){const h=await r.text();return parseHTML(h);}
+    }catch(e){continue;}
+  }
+  throw new Error('fetch failed');
+}
+
+function parseHTML(html){
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  ['script','style','nav','footer','header','aside','noscript'].forEach(t=>doc.querySelectorAll(t).forEach(e=>e.remove()));
+  const title=doc.querySelector('title')?.textContent||'';
+  const main=doc.querySelector('main,article,[role="main"]');
+  const txt=(main||doc.body)?.textContent||'';
+  return((title?'Title: '+title+'\n\n':'')+txt.replace(/\s+/g,' ').trim()).slice(0,7000);
+}
+
+function setStatus(type,msg){
+  const el=document.getElementById('urlStatus');
+  if(el)el.innerHTML=`<span class="status-${type}">${msg}</span>`;
+}
+
+// ─── GENERATE ─────────────────────────────────────────────
+async function doGenerate(){
+  const hasPaste=S.srcType==='text'&&document.getElementById('pasteArea').value.trim();
+  if(!S.file&&!S.urlText&&!hasPaste)return;
+  showV('proc');startProc();
+  try{
+    const r=await callAI();
+    S.results=r;stopProc();showResults();
+  }catch(e){
+    stopProc();showV('upload');
+    setStatus('err',tx('errProc')+': '+e.message);
+  }
+}
+
+async function callAI(){
+  const t=L[S.lang];
+  const prompt=`You are an expert educational content creator. Analyze the provided content and create high-quality learning materials in ${t.langName}.
+
+Generate in ${t.langName}:
+
+1. PODCAST SCRIPT — Natural, engaging 250-300 word script as if spoken by a podcast host.
+2. SUMMARY — Clear bullet-point summary 150-200 words.
+3. EXACTLY ${S.qc} MULTIPLE CHOICE QUESTIONS — ${t.diffDesc[S.diff]}. Each has 4 options, 1 correct.
+
+Respond ONLY with valid JSON, no markdown fences:
+{"title":"short title","podcast":"full script","summary":"full summary","questions":[{"q":"question","options":["A text","B text","C text","D text"],"correct":0,"explanation":"why correct"}]}`;
+
+  let content;
+  if(S.file){
+    const isPdf=S.file.type==='application/pdf';
+    const isImg=S.file.type.startsWith('image/');
+    const b64=await toB64(S.file);
+    if(isPdf){
+      content=[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}];
+    } else if(isImg){
+      const mt=['image/jpeg','image/png','image/gif','image/webp'].includes(S.file.type)?S.file.type:'image/jpeg';
+      content=[{type:'image',source:{type:'base64',media_type:mt,data:b64}},{type:'text',text:prompt}];
+    } else {
+      const txt=await toText(S.file);
+      content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+txt.slice(0,7000)}];
+    }
+  } else if(S.urlText){
+    content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+S.urlText}];
+  } else {
+    const paste=document.getElementById('pasteArea').value.trim();
+    content=[{type:'text',text:prompt+'\n\nCONTENT:\n'+paste.slice(0,7000)}];
+  }
+
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content}]})
+  });
+  if(!res.ok)throw new Error('API '+res.status);
+  const data=await res.json();
+  if(data.error)throw new Error(data.error.message);
+  const raw=data.content.map(b=>b.text||'').join('');
+  const s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+  if(s<0||e<0)throw new Error('bad response');
+  return JSON.parse(raw.slice(s,e+1));
+}
+
+function toB64(f){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=rej;r.readAsDataURL(f);
+  });
+}
+function toText(f){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=rej;r.readAsText(f);
+  });
+}
+
+// ─── PROCESSING ANIMATION ─────────────────────────────────
+function startProc(){
+  pPct=0;let mi=0;
+  const msgs=tx('msgs');
+  document.getElementById('procMsg').textContent=msgs[0];
+  document.getElementById('progBar').style.width='3%';
+  document.getElementById('procTitle').textContent=tx('procTitle');
+  pInterval=setInterval(()=>{
+    pPct=Math.min(pPct+1.8,90);
+    document.getElementById('progBar').style.width=pPct+'%';
+    const ni=Math.floor((pPct/90)*msgs.length);
+    if(ni!==mi&&ni<msgs.length){
+      mi=ni;
+      const el=document.getElementById('procMsg');
+      el.style.opacity='0';
+      setTimeout(()=>{el.textContent=msgs[mi];el.style.opacity='1';},280);
+    }
+  },400);
+}
+function stopProc(){clearInterval(pInterval);document.getElementById('progBar').style.width='100%';}
+
+// ─── VIEWS ────────────────────────────────────────────────
+function showV(v){
+  ['upload','proc','results'].forEach(x=>document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden',x!==v));
+}
+function tab(id){
+  ['pod','sum','qst','gam'].forEach(t=>{
+    document.getElementById('tc-'+t).classList.toggle('on',t===id);
+    document.getElementById('tb-'+t).classList.toggle('on',t===id);
+  });
+}
+
+// ─── SHOW RESULTS ─────────────────────────────────────────
+function showResults(){
+  const r=S.results;
+  document.getElementById('resTitle').innerHTML=tx('resTitle');
+  document.getElementById('resSub').textContent=r.title||S.sourceTitle;
+
+  // Podcast
+  document.getElementById('podName').textContent=r.title||S.sourceTitle;
+  document.getElementById('scriptBox').textContent=r.podcast;
+  buildWave();
+
+  // Summary
+  document.getElementById('sumContent').textContent=r.summary;
+
+  // Questions
+  buildQuestions();
+
+  // Game
+  buildGameStart();
+
+  showV('results');
+  tab('pod');
+  if(S.game)tab('gam');
+}
+
+// ─── WAVE ──────────────────────────────────────────────────
+function buildWave(){
+  const w=document.getElementById('wave');
+  w.innerHTML='';
+  for(let i=0;i<22;i++){
+    const b=document.createElement('div');
+    b.className='wb';
+    b.style.height=(6+Math.random()*20)+'px';
+    w.appendChild(b);
+  }
+}
+
+// ─── TTS ──────────────────────────────────────────────────
+function toggleTTS(){
+  if(S.ttsOn){
+    window.speechSynthesis.cancel();
+    S.ttsOn=false;
+    document.getElementById('playBtn').textContent='▶';
+    document.getElementById('podPlayer').classList.remove('playing');
+  } else {
+    const langMap={en:'en-US',tr:'tr-TR',az:'tr-TR',ru:'ru-RU'};
+    const u=new SpeechSynthesisUtterance(S.results.podcast);
+    u.lang=langMap[S.lang];u.rate=0.93;
+    u.onend=()=>{S.ttsOn=false;document.getElementById('playBtn').textContent='▶';document.getElementById('podPlayer').classList.remove('playing');};
+    window.speechSynthesis.speak(u);
+    S.ttsOn=true;
+    document.getElementById('playBtn').textContent='■';
+    document.getElementById('podPlayer').classList.add('playing');
+  }
+}
+
+// ─── QUESTIONS ────────────────────────────────────────────
+function buildQuestions(){
+  const list=document.getElementById('qList');
+  list.innerHTML='';
+  S.results.questions.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='q-card';
+    d.style.animationDelay=(i*0.04)+'s';
+    const opts=q.options.map((o,j)=>`
+      <li class="opt-item" data-c="${j===q.correct}">
+        <span class="opt-ltr">${tx('ABCD')[j]}</span><span>${o}</span>
+      </li>`).join('');
+    d.innerHTML=`
+      <div class="q-num">Q${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <ul class="opts-list" id="ol-${i}">${opts}</ul>
+      <div class="expl-box" id="ex-${i}">${tx('explLbl')} ${q.explanation}</div>
+      <div class="ans-toggle">
+        <button class="btn btn-ghost" style="font-size:0.78rem;padding:5px 12px" data-s="0" onclick="toggleAns(${i},this)">${tx('showAns')}</button>
+      </div>`;
+    list.appendChild(d);
+  });
+}
+function toggleAns(i,btn){
+  const show=btn.dataset.s==='1';
+  const ol=document.getElementById('ol-'+i);
+  const ex=document.getElementById('ex-'+i);
+  if(show){
+    ol.querySelectorAll('[data-c="true"]').forEach(li=>li.classList.remove('corr'));
+    ex.classList.remove('show');
+    btn.textContent=tx('showAns');btn.dataset.s='0';
+  } else {
+    ol.querySelectorAll('[data-c="true"]').forEach(li=>li.classList.add('corr'));
+    ex.classList.add('show');
+    btn.textContent=tx('hideAns');btn.dataset.s='1';
+  }
+}
+
+// ─── GAME ─────────────────────────────────────────────────
+let gS={lives:3,score:0,qi:0};
+
+function buildGameStart(){
+  document.getElementById('gameArea').innerHTML=`
+    <div class="card game-start-card">
+      <span class="gs-icon">🎮</span>
+      <div class="gs-title">${tx('gsTitle')}</div>
+      <div class="gs-sub">${tx('gsSub')}</div>
+      <button class="btn btn-lime" style="margin:0 auto;font-size:1rem;padding:13px 32px;border-radius:var(--r)" onclick="startGame()">${tx('startGame')}</button>
+    </div>`;
+}
+function startGame(){
+  gS={lives:3,score:0,qi:0};gAnswered=false;gOver=false;
+  renderQ();
+}
+function renderQ(){
+  gAnswered=false;
+  const q=S.results.questions[gS.qi],n=S.results.questions.length;
+  const hearts='❤️'.repeat(gS.lives)+'🖤'.repeat(3-gS.lives);
+  const opts=q.options.map((o,i)=>`<button class="gopt" id="go-${i}" onclick="pickAns(${i})">${tx('ABCD')[i]}. ${o}</button>`).join('');
+  document.getElementById('gameArea').innerHTML=`
+    <div class="game-hud">
+      <div class="hud-box"><div class="hud-val" id="gScore">${gS.score}</div><div class="hud-lbl">${tx('scoreLbl')}</div></div>
+      <div class="hud-box"><div class="hud-val" id="gLives">${hearts}</div><div class="hud-lbl">${tx('livesLbl')}</div></div>
+      <div class="hud-box"><div class="hud-val" id="gTime">15</div><div class="hud-lbl">sec</div></div>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="tFill" style="width:100%"></div></div>
+    <div class="gq-card">
+      <div class="gq-prog">${tx('qLbl')} ${gS.qi+1} ${tx('ofLbl')} ${n}</div>
+      <div class="gq-text">${q.q}</div>
+    </div>
+    <div class="gopts">${opts}</div>
+    <div class="g-fb" id="gFb"></div>
+    <button class="btn btn-lime hidden" id="nextBtn" onclick="nextQ()" style="width:100%;margin-top:12px;justify-content:center">
+      ${gS.qi+1<n?'→ '+tx('qLbl')+' '+(gS.qi+2):'📊 '+tx('finalScore')}
+    </button>`;
+  startTimer();
+}
+function startTimer(){
+  gTLeft=15;clearInterval(gTimer);
+  gTimer=setInterval(()=>{
+    gTLeft--;
+    const pct=(gTLeft/15)*100;
+    const f=document.getElementById('tFill'),t=document.getElementById('gTime');
+    if(!f){clearInterval(gTimer);return;}
+    f.style.width=pct+'%';
+    if(t)t.textContent=gTLeft;
+    if(gTLeft<=4)f.className='timer-fill dang';
+    else if(gTLeft<=7)f.className='timer-fill warn';
+    if(gTLeft<=0){clearInterval(gTimer);pickAns(-1);}
+  },1000);
+}
+function pickAns(idx){
+  if(gAnswered||gOver)return;
+  gAnswered=true;clearInterval(gTimer);
+  const q=S.results.questions[gS.qi];
+  const ok=idx===q.correct;
+  document.querySelectorAll('.gopt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.correct)b.classList.add('corr');
+    else if(i===idx&&!ok)b.classList.add('wrng');
+  });
+  const fb=document.getElementById('gFb');
+  if(ok){
+    gS.score+=10+Math.max(0,gTLeft*2);
+    fb.className='g-fb show corr-fb';
+    fb.innerHTML=`<div class="fb-head fb-corr">${tx('correct')}</div><div class="fb-body">${q.explanation}</div>`;
+    const se=document.getElementById('gScore');if(se)se.textContent=gS.score;
+  } else {
+    gS.lives--;
+    fb.className='g-fb show wrng-fb';
+    fb.innerHTML=`<div class="fb-head fb-wrng">${tx('wrong')}</div><div class="fb-body">${tx('explLbl')} ${q.explanation}</div>`;
+    const le=document.getElementById('gLives');
+    if(le)le.textContent='❤️'.repeat(Math.max(0,gS.lives))+'🖤'.repeat(3-Math.max(0,gS.lives));
+  }
+  if(gS.lives<=0){gOver=true;setTimeout(()=>renderGameOver(false),1800);}
+  else{const nb=document.getElementById('nextBtn');if(nb)nb.classList.remove('hidden');}
+}
+function nextQ(){
+  if(gOver)return;
+  gS.qi++;
+  if(gS.qi>=S.results.questions.length)renderGameOver(true);
+  else renderQ();
+}
+function renderGameOver(won){
+  clearInterval(gTimer);
+  document.getElementById('gameArea').innerHTML=`
+    <div class="card go-card">
+      <span class="go-em">${won?'🏆':'💀'}</span>
+      <div class="go-title">${won?tx('youWon'):tx('gameOver')}</div>
+      <div class="final-lbl">${tx('finalScore')}</div>
+      <div class="final-score">${gS.score}</div>
+      <div class="final-lbl" style="margin-bottom:24px">${gS.qi} ${tx('ofLbl')} ${S.results.questions.length} answered</div>
+      <div class="go-btns">
+        <button class="btn btn-lime" onclick="startGame()">🔄 ${tx('tryAgain')}</button>
+        <button class="btn btn-ghost" onclick="tab('qst')">📋 ${tx('backToRes')}</button>
+      </div>
+    </div>`;
+}
+
+// ─── PDF EXPORT ────────────────────────────────────────────
+function doPdf(){
+  if(!S.results)return;
+  const r=S.results;
+  const ABCD=tx('ABCD');
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>LearnCast Export</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'DM Sans',sans-serif;max-width:740px;margin:0 auto;padding:40px 32px;color:#1a1a2e;line-height:1.6}
+h1{font-size:1.6rem;font-weight:700;color:#2563eb;margin-bottom:4px}
+.sub{color:#64748b;font-size:0.85rem;margin-bottom:28px}
+h2{font-size:1.1rem;font-weight:700;color:#1e293b;border-left:4px solid #2563eb;padding-left:10px;margin:28px 0 12px}
+.sum{background:#f8fafc;border-radius:8px;padding:16px 20px;font-size:0.91rem;white-space:pre-wrap}
+.qcard{border:1px solid #e2e8f0;border-radius:8px;padding:16px 18px;margin-bottom:12px;page-break-inside:avoid}
+.qnum{font-size:0.72rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.qtext{font-weight:600;margin-bottom:10px;font-size:0.93rem}
+.opt{padding:5px 10px;border-radius:4px;font-size:0.86rem;margin-bottom:3px}
+.opt.c{background:#dcfce7;color:#166534;font-weight:600}
+.expl{background:#eff6ff;color:#1d4ed8;font-size:0.82rem;padding:7px 12px;border-radius:4px;margin-top:8px}
+@media print{.noprint{display:none}body{padding:20px}}
+</style></head><body>
+<h1>LearnCast — ${escH(r.title||S.sourceTitle)}</h1>
+<div class="sub">Generated by LearnCast · ${new Date().toLocaleDateString()}</div>
+<h2>${tx('tbSum')}</h2>
+<div class="sum">${escH(r.summary)}</div>
+<h2>${tx('tbQst')}</h2>
+${r.questions.map((q,i)=>`
+<div class="qcard">
+<div class="qnum">Q${i+1}</div>
+<div class="qtext">${escH(q.q)}</div>
+${q.options.map((o,j)=>`<div class="opt${j===q.correct?' c':''}">${ABCD[j]}. ${escH(o)}${j===q.correct?' ✓':''}</div>`).join('')}
+<div class="expl">${escH(tx('explLbl'))} ${escH(q.explanation)}</div>
+</div>`).join('')}
+<script>window.onload=()=>setTimeout(()=>window.print(),400)<\/script>
+</body></html>`);
+  w.document.close();
+}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ─── RESET ────────────────────────────────────────────────
+function reset(){
+  window.speechSynthesis?.cancel();
+  S.file=null;S.urlText=null;S.results=null;S.ttsOn=false;
+  document.getElementById('fileInput').value='';
+  document.getElementById('urlInp').value='';
+  document.getElementById('pasteArea').value='';
+  document.getElementById('fileBadge').classList.add('hidden');
+  document.getElementById('urlStatus').innerHTML='';
+  clearInterval(gTimer);
+  showV('upload');
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+setL('en');
+</script>
+</body>
 </html>
